@@ -1,39 +1,39 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private String chName;
 	
-	private JPanel contentPane, panelNorth, panelCenter;
-	private JLabel caption1, caption2, caption3;
+	private JPanel contentPane;
+	private JPanel panelNorth, panelCenter, panelSouth;
 	private JTable tableOfOverview, tableOfManager, tableOfCollector;
 	
 	// 생성자
 	public FrameDetail(String chName) {
 		this.chName = chName;
 		initFrame();
-		initPanel();
-		initLabelOfTableCaption();
+		initPanels();
+		initLabels();
 		initTableOfOverview();
 		initTableOfManager();
 		initTableOfCollector();
-		
-		JLabel lblName = new JLabel(chName);
-		lblName.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		panelNorth.add(lblName);
+		initTextAreas();
+		initButtons();
 	}
 	
 	// Frame 초기화
 	public void initFrame() {
 		setTitle(chName);
-		setBounds(100, 100, 634, 433);
+		setBounds(100, 100, 750, 570);
 		setVisible(true);
 	}
 	
 	// Panel 초기화
-	public void initPanel() {
+	public void initPanels() {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -46,21 +46,37 @@ public class FrameDetail extends JFrame {
 		panelCenter.setSize(310, 360);
 		panelCenter.setLayout(null);
 		contentPane.add(panelCenter, BorderLayout.CENTER);
+		
+		panelSouth = new JPanel();
+		panelSouth.setBorder(UIManager.getBorder("Button.border"));
+		contentPane.add(panelSouth, BorderLayout.SOUTH);
 	}
 	
-	// 레이블(테이블 제목) 초기화
-	public void initLabelOfTableCaption() {
-		caption1 = new JLabel("개요");
+	// 레이블 초기화
+	public void initLabels() {
+		JLabel lblName = new JLabel(chName);
+		lblName.setFont(new Font("맑은 고딕", Font.BOLD, 24));
+		panelNorth.add(lblName);
+		
+		JLabel caption1 = new JLabel("개요");
 		caption1.setBounds(12, 10, 275, 15);
 		panelCenter.add(caption1);
 		
-		caption2 = new JLabel("관리기관 정보");
+		JLabel caption2 = new JLabel("관리기관 정보");
 		caption2.setBounds(12, 123, 275, 15);
 		panelCenter.add(caption2);
 		
-		caption3 = new JLabel("소장기관 정보");
-		caption3.setBounds(316, 10, 292, 15);
+		JLabel caption3 = new JLabel("소장기관 정보");
+		caption3.setBounds(382, 10, 292, 15);
 		panelCenter.add(caption3);
+		
+		JLabel labelDesc1 = new JLabel("문화재 설명");
+		labelDesc1.setBounds(12, 237, 292, 15);
+		panelCenter.add(labelDesc1);
+		
+		JLabel labelDesc2 = new JLabel("박물관 규정");
+		labelDesc2.setBounds(382, 237, 292, 15);
+		panelCenter.add(labelDesc2);
 	}
 	
 	// 개요 테이블 초기화
@@ -72,9 +88,11 @@ public class FrameDetail extends JFrame {
 				{ "상태", "" },
 				{ "시대", ""}
 		};
-		tableOfOverview = new JTable(contents, header);
+		tableOfOverview = new JTable();
+		tableOfOverview.setModel(new DefaultTableModel(contents, header));
+		tableOfOverview.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfOverview.setEnabled(false);
-		tableOfOverview.setBounds(12, 35, 275, 64);
+		tableOfOverview.setBounds(12, 35, 335, 64);
 		panelCenter.add(tableOfOverview);
 	}
 	
@@ -87,9 +105,11 @@ public class FrameDetail extends JFrame {
 				{ "연락처", "" },
 				{ "문화재 훼손 개수", "" }
 		};
-		tableOfCollector = new JTable(contents, header);
+		tableOfCollector = new JTable();
+		tableOfCollector.setModel(new DefaultTableModel(contents, header));
+		tableOfCollector.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfCollector.setEnabled(false);
-		tableOfCollector.setBounds(12, 148, 275, 64);
+		tableOfCollector.setBounds(12, 148, 335, 64);
 		panelCenter.add(tableOfCollector);
 	}
 	
@@ -105,12 +125,57 @@ public class FrameDetail extends JFrame {
 				{ "문화재 도난 개수", "" },
 				{ "박물관 분류", "" },
 				{ "설립 및 운영 주체", "" },
-				{ "박물관 유형", "" },
-				{ "박물관 규정", "" }
+				{ "박물관 유형", "" }
 		};
-		tableOfManager = new JTable(contents, header);
+		tableOfManager = new JTable();
+		tableOfManager.setModel(new DefaultTableModel(contents, header));
+		tableOfManager.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfManager.setEnabled(false);
-		tableOfManager.setBounds(316, 35, 292, 160);
+		tableOfManager.setBounds(382, 35, 335, 144);
 		panelCenter.add(tableOfManager);
+	}
+	
+	// 텍스트 영역 초기화
+	public void initTextAreas() {
+		JScrollPane scrollPane1 = new JScrollPane();
+		scrollPane1.setBounds(12, 262, 335, 177);
+		panelCenter.add(scrollPane1);
+		
+		JTextArea textArea1 = new JTextArea();
+		textArea1.setText("문화재 설명\r\n문화재 설명\r\n문화재 설명");
+		textArea1.setEditable(false);
+		scrollPane1.setViewportView(textArea1);
+		
+		JScrollPane scrollPane2 = new JScrollPane();
+		scrollPane2.setBounds(382, 262, 335, 177);
+		panelCenter.add(scrollPane2);
+		
+		JTextArea textArea2 = new JTextArea();
+		textArea2.setText("박물관 규정\r\n박물관 규정\r\n박물관 규정");
+		textArea2.setEditable(false);
+		scrollPane2.setViewportView(textArea2);
+	}
+	
+	// 버튼 초기화
+	public void initButtons() {
+		panelSouth.setLayout(new GridLayout(1, 1, 0, 0));
+		
+		JPanel subpanel1 = new JPanel();
+		panelSouth.add(subpanel1);
+		
+		JPanel subpanel2 = new JPanel();
+		panelSouth.add(subpanel2);
+
+		JButton btn1 = new JButton("문화재 훼손");
+		subpanel1.add(btn1);
+		
+		JButton btn2 = new JButton("훼손 취소");
+		subpanel1.add(btn2);
+		
+		JButton btn3 = new JButton("문화재 분실");
+		subpanel2.add(btn3);
+		
+		JButton btn4 = new JButton("분실 취소");
+		subpanel2.add(btn4);
 	}
 }
