@@ -172,13 +172,41 @@ public class FrameDetail extends JFrame {
 		JButton btn1 = new JButton("문화재 훼손");
 		subpanel1.add(btn1);
 		
-		JButton btn2 = new JButton("훼손 취소");
+		JButton btn2 = new JButton("훼손 복구");
 		subpanel1.add(btn2);
 		
 		JButton btn3 = new JButton("문화재 분실");
 		subpanel2.add(btn3);
 		
-		JButton btn4 = new JButton("분실 취소");
+		JButton btn4 = new JButton("분실 복구");
 		subpanel2.add(btn4);
+		
+		btn1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "문화재가 훼손 처리되었습니다.",
+						"문화재 훼손", JOptionPane.WARNING_MESSAGE);
+			}
+		});
+		
+		btn2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "훼손된 문화재가 보존 상태로 복구되었습니다.",
+						"훼손 복구", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		btn3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "문화재가 분실 처리되었습니다.",
+						"문화재 분실", JOptionPane.WARNING_MESSAGE);
+			}
+		});
+		
+		btn4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "분실된 문화재가 보존 상태로 복구되었습니다.",
+						"분실 복구", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 	}
 }
