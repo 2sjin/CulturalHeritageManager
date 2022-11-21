@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.border.*;
 
 
 public class FrameDetail extends JFrame {
@@ -28,7 +29,7 @@ public class FrameDetail extends JFrame {
 	// Frame 초기화
 	public void initFrame() {
 		setTitle(chName);
-		setBounds(100, 100, 750, 570);
+		setBounds(100, 100, 750, 600);
 		setVisible(true);
 	}
 	
@@ -39,6 +40,8 @@ public class FrameDetail extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		panelNorth = new JPanel();
+		panelNorth.setBackground(new Color(135, 206, 235));
+		panelNorth.setBorder(new EmptyBorder(5, 0, 10, 0));
 		FlowLayout flowLayout = (FlowLayout) panelNorth.getLayout();
 		contentPane.add(panelNorth, BorderLayout.NORTH);
 		
@@ -48,7 +51,7 @@ public class FrameDetail extends JFrame {
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 		
 		panelSouth = new JPanel();
-		panelSouth.setBorder(UIManager.getBorder("Button.border"));
+		panelSouth.setBorder(new EmptyBorder(5, 0, 15, 0));
 		contentPane.add(panelSouth, BorderLayout.SOUTH);
 	}
 	
