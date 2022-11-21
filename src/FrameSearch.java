@@ -17,7 +17,6 @@ public class FrameSearch extends JFrame {
 	// 테이블 모델(테이블 알맹이를 모아놓은 것?)
 	DefaultTableModel tableModel = new DefaultTableModel(contents, header) {
 		private static final long serialVersionUID = 1L;
-
 		public boolean isCellEditable(int row, int column) {
 			return false;
 		}
