@@ -1,9 +1,8 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.border.*;
-
+import javax.swing.table.DefaultTableModel;
 
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -12,6 +11,8 @@ public class FrameDetail extends JFrame {
 	private JPanel contentPane;
 	private JPanel panelNorth, panelCenter, panelSouth;
 	private JTable tableOfOverview, tableOfManager, tableOfCollector;
+	
+	// ==============================================================================
 	
 	// 생성자
 	public FrameDetail(String chName) {
@@ -24,13 +25,13 @@ public class FrameDetail extends JFrame {
 		initTableOfCollector();
 		initTextAreas();
 		initButtons();
+		setVisible(true);
 	}
 	
 	// Frame 초기화
 	public void initFrame() {
 		setTitle(chName);
 		setBounds(100, 100, 750, 600);
-		setVisible(true);
 	}
 	
 	// Panel 초기화
@@ -42,7 +43,6 @@ public class FrameDetail extends JFrame {
 		panelNorth = new JPanel();
 		panelNorth.setBackground(new Color(135, 206, 235));
 		panelNorth.setBorder(new EmptyBorder(5, 0, 10, 0));
-		FlowLayout flowLayout = (FlowLayout) panelNorth.getLayout();
 		contentPane.add(panelNorth, BorderLayout.NORTH);
 		
 		panelCenter = new JPanel();
@@ -159,7 +159,7 @@ public class FrameDetail extends JFrame {
 		scrollPane2.setViewportView(textArea2);
 	}
 	
-	// 버튼 초기화
+	// 버튼 초기화(이벤트 포함)
 	public void initButtons() {
 		panelSouth.setLayout(new GridLayout(1, 1, 0, 0));
 		
@@ -170,43 +170,50 @@ public class FrameDetail extends JFrame {
 		panelSouth.add(subpanel2);
 
 		JButton btn1 = new JButton("문화재 훼손");
+		btn1.addActionListener(new MyActionListener1());
 		subpanel1.add(btn1);
 		
 		JButton btn2 = new JButton("훼손 복구");
+		btn2.addActionListener(new MyActionListener2());
 		subpanel1.add(btn2);
 		
 		JButton btn3 = new JButton("문화재 분실");
+		btn3.addActionListener(new MyActionListener3());
 		subpanel2.add(btn3);
 		
 		JButton btn4 = new JButton("분실 복구");
+		btn4.addActionListener(new MyActionListener4());
 		subpanel2.add(btn4);
-		
-		btn1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "문화재가 훼손 처리되었습니다.",
-						"문화재 훼손", JOptionPane.WARNING_MESSAGE);
-			}
-		});
-		
-		btn2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "훼손된 문화재가 보존 상태로 복구되었습니다.",
-						"훼손 복구", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
-		
-		btn3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "문화재가 분실 처리되었습니다.",
-						"문화재 분실", JOptionPane.WARNING_MESSAGE);
-			}
-		});
-		
-		btn4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "분실된 문화재가 보존 상태로 복구되었습니다.",
-						"분실 복구", JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
+	}
+	
+	// ==============================================================================
+	
+	// 내부 클래스: 각 버튼 클릭 시의 이벤트
+	class MyActionListener1 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "문화재가 훼손 처리되었습니다.",
+					"문화재 훼손", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	class MyActionListener2 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "훼손된 문화재가 보존 상태로 복구되었습니다.",
+					"훼손 복구", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	class MyActionListener3 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "문화재가 분실 처리되었습니다.",
+					"문화재 분실", JOptionPane.WARNING_MESSAGE);
+		}
+	}
+	
+	class MyActionListener4 implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			JOptionPane.showMessageDialog(null, "분실된 문화재가 보존 상태로 복구되었습니다.",
+					"분실 복구", JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 }
