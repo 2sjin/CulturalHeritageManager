@@ -1,13 +1,15 @@
+import java.awt.GridLayout;
 import java.awt.event.*;
-import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.table.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.GridLayout;
+
+import java.sql.SQLException;
 
 public class FrameSearch extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private String[][] ary = null;
 	private DB_Conn_Query dbconquery;
 	
 	private JPanel contentPane, radioPanel;
@@ -26,6 +28,8 @@ public class FrameSearch extends JFrame {
 		initRadioButtons();
 		initSearchComponents();
 		initTable();
+		search();
+		refreshtable();
 		setVisible(true);
 	}
 	
@@ -95,29 +99,29 @@ public class FrameSearch extends JFrame {
 		});
 	}
 	
-	// 검색 결과 테이블 초기화
+	// 검색 결과 테이블 초기화(테이블 외형 초기화)
 	public void initTable() {
-		String header[] = { "문화재이름", "시대", "소재지/출토지", "상태" }; // 테이블 헤더
-		String contents[][] = {
-				{ "말 갑옷", "조선시대", "서울 중구", "보존" },
-				{ "서울 원각사지 십층석탑", "조선시대", "서울 종로구", "보존" },
-				{ "서울 흥인지문", "조선시대", "서울 종로구", "보존" },
-				{ "옛 보신각 동종", "조선시대", "서울 용산구", "보존" } }; // 테이블 내용
 		
 		table.addMouseListener(new MyMouseAdapter());
 		table.addKeyListener(new MyKeyListener());
 		contentPane.setLayout(null);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 하나만 선택 가능
+		
+		scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(12, 92, 562, 261);
+		contentPane.add(scrollPane);
+	}
+	
+	// 검색 결과 테이블 내용 새로고침
+	public void refreshtable() {
+		String header[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
+		String contents[][] = ary;	// 테이블 내용
 		table.setModel(new DefaultTableModel(contents, header) {
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 		});
-		
-		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(12, 92, 562, 261);
-		contentPane.add(scrollPane);
 	}
 	
 	// ==============================================================================
@@ -127,7 +131,8 @@ public class FrameSearch extends JFrame {
 		System.out.println("****** 검색 명령 수행 ******");
 		dbconquery = new DB_Conn_Query();
 		try {
-			dbconquery.sqlRunSearchProcedure(textField.getText());
+			ary = dbconquery.sqlRunSearchProcedure(textField.getText());
+			refreshtable();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -1,10 +1,11 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.SQLException;
 
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
+
+import java.sql.SQLException;
 
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;

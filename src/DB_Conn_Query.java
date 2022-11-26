@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.util.ArrayList;
+
 import oracle.jdbc.OracleTypes;
 
 public class DB_Conn_Query {
@@ -6,7 +8,7 @@ public class DB_Conn_Query {
 	String url = "jdbc:oracle:thin:@localhost:1521:XE"; String id = "heritage"; String password = "1234";
 
 	// 드라이버 적재
-	public void loadDrive() {
+	public void loadDriver() {
 	try { Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("드라이버 적재 성공");
 	} catch (ClassNotFoundException e) {
@@ -55,7 +57,7 @@ public class DB_Conn_Query {
 			pstmt.setString(1, chName);
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				for (int i=0; i<rsArray.length; i++) {				
+				for (int i=0; i<rsArray.length; i++) {		
 					rsArray[i] = rs.getString(i+1);
 				}
 			}
@@ -68,7 +70,10 @@ public class DB_Conn_Query {
 	}
 	
 	// SQL 실행: 검색을 위한 저장프로시저 호출
-	public void sqlRunSearchProcedure(String keyword) throws SQLException {
+	public String[][] sqlRunSearchProcedure(String keyword) throws SQLException {
+		ArrayList<String[]> rsArrayList = new ArrayList<>();
+		String[] rsArray = new String[4];
+		String[][] abc = null;
 		try {
 			DB_Connect();
 			CallableStatement cstmt = con.prepareCall(" {call SP_문화재검색(?, ?)}");
@@ -77,12 +82,21 @@ public class DB_Conn_Query {
 			cstmt.executeQuery();
 			ResultSet rs = (ResultSet) cstmt.getObject(2);
 			while (rs.next()) {
-				System.out.println(rs.getString(1));
+				for (int i=0; i<rsArray.length; i++)
+					rsArray[i] = rs.getString(i+1);
+				rsArrayList.add(rsArray.clone());	// clone() 메소드가 없으면 깊은 복사가 되지 않음
 			}
+			
+			abc = new String[rsArrayList.size()][4];
+			for (int i=0; i<abc.length; i++) {
+				abc[i] = rsArrayList.get(i);
+			}
+			
 			cstmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { con.close(); }
+		return abc;
 	}
 }
