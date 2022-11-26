@@ -1,6 +1,6 @@
 
 public class App {
 	public static void main(String[] args) {
-		new FrameSearch();
+		FrameSearch frame = new FrameSearch();
 	}
 }

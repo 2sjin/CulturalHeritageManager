@@ -1,11 +1,13 @@
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.GridLayout;
 
 public class FrameSearch extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel contentPane;
+	private JPanel contentPane, radioPanel;
 	private JTextField textField;
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
@@ -17,6 +19,7 @@ public class FrameSearch extends JFrame {
 	public FrameSearch() {
 		initFrame();
 		initPanels();
+		initRadioButtons();
 		initSearchComponents();
 		initTable();
 		setVisible(true);
@@ -26,19 +29,43 @@ public class FrameSearch extends JFrame {
 	public void initFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// 해당 프레임을 종료하면 프로그램 전체 종료
 		setTitle("문화재 관리 프로그램");
-		setSize(600, 350);
+		setSize(600, 400);
 	}
 	
 	// Panel 초기화
 	public void initPanels() {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
+
+		radioPanel = new JPanel();
+		radioPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
+		radioPanel.setLocation(12, 13);
+		radioPanel.setSize(562, 27);
+		radioPanel.setLayout(new GridLayout(0, 4, 0, 0));
+		contentPane.add(radioPanel);
 	}
 	
-	// 검색 관련 컴포넌트 초기화
+	// 라디오버튼 초기화
+	public void initRadioButtons() {
+		ButtonGroup group = new ButtonGroup();
+		JRadioButton rb1 = new JRadioButton("문화재", true);
+		JRadioButton rb2 = new JRadioButton("소장기관");
+		JRadioButton rb3 = new JRadioButton("관리기관");
+		JRadioButton rb4 = new JRadioButton("시대");
+		group.add(rb1);
+		group.add(rb2);
+		group.add(rb3);
+		group.add(rb4);
+		radioPanel.add(rb1);
+		radioPanel.add(rb2);
+		radioPanel.add(rb3);
+		radioPanel.add(rb4);
+	}
+	
+	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
 		textField = new JTextField();
-		textField.setBounds(12, 23, 459, 27);
+		textField.setBounds(12, 50, 459, 27);
 		textField.setColumns(10);
 		textField.addKeyListener(new MyKeyListener());
 		textField.setFocusable(true);
@@ -46,7 +73,7 @@ public class FrameSearch extends JFrame {
 		contentPane.add(textField);
 		
 		btnSearch = new JButton("검색");
-		btnSearch.setBounds(483, 23, 91, 27);
+		btnSearch.setBounds(483, 50, 91, 27);
 		btnSearch.addKeyListener(new MyKeyListener());
 		btnSearch.setFocusable(true);
 		btnSearch.requestFocus();
@@ -80,7 +107,7 @@ public class FrameSearch extends JFrame {
 		});
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(12, 71, 562, 232);
+		scrollPane.setBounds(12, 92, 562, 261);
 		contentPane.add(scrollPane);
 	}
 	
@@ -119,6 +146,4 @@ public class FrameSearch extends JFrame {
 			}
 		}
 	}
-	
-	// ==============================================================================
 }
