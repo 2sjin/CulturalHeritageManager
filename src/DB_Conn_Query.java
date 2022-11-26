@@ -69,27 +69,33 @@ public class DB_Conn_Query {
 		return rsArray;
 	}
 	
+	
+	
 	// SQL 실행: 검색을 위한 저장프로시저 호출
 	public String[][] sqlRunSearchProcedure(String keyword) throws SQLException {
-		ArrayList<String[]> rsArrayList = new ArrayList<>();
-		String[] rsArray = new String[4];
-		String[][] abc = null;
+		ArrayList<String[]> tempRowArrayList = new ArrayList<>();
+		String[] tempRow = new String[4];
+		String[][] ary = null;
+
 		try {
 			DB_Connect();
 			CallableStatement cstmt = con.prepareCall(" {call SP_문화재검색(?, ?)}");
 			cstmt.setString(1, keyword);
 			cstmt.registerOutParameter(2, OracleTypes.CURSOR);
 			cstmt.executeQuery();
-			ResultSet rs = (ResultSet) cstmt.getObject(2);
+			ResultSet rs = (ResultSet) cstmt.getObject(2);	// 저장프로시저의 커서를 리턴받음
+			
+			// 각 행을 배열 형태로 저장한 뒤, 배열을 ArrayList에 저장함 (2차원 구조)
 			while (rs.next()) {
-				for (int i=0; i<rsArray.length; i++)
-					rsArray[i] = rs.getString(i+1);
-				rsArrayList.add(rsArray.clone());	// clone() 메소드가 없으면 깊은 복사가 되지 않음
+				for (int i=0; i<tempRow.length; i++)
+					tempRow[i] = rs.getString(i+1);
+				tempRowArrayList.add(tempRow.clone());	// clone() 메소드가 없으면 깊은 복사가 되지 않음
 			}
 			
-			abc = new String[rsArrayList.size()][4];
-			for (int i=0; i<abc.length; i++) {
-				abc[i] = rsArrayList.get(i);
+			// 배열 ArrayList를 2차원 배열로 변환함(DefaultTableModel에서 사용하기 위함)
+			ary = new String[tempRowArrayList.size()][4];
+			for (int i=0; i<ary.length; i++) {
+				ary[i] = tempRowArrayList.get(i);
 			}
 			
 			cstmt.close();
@@ -97,6 +103,6 @@ public class DB_Conn_Query {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { con.close(); }
-		return abc;
+		return ary;
 	}
 }

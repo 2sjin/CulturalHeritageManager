@@ -27,9 +27,9 @@ public class FrameSearch extends JFrame {
 		initPanels();
 		initRadioButtons();
 		initSearchComponents();
-		initTable();
-		search();
-		refreshtable();
+		initTable();	// 테이블 외형 초기화
+		search();		// 검색을 수행하여 데이터 가져옴(초기에는 공백을 검색하여 전체 데이터를 가져옴)
+		refreshtable();	// 검색 결과를 바탕으로 테이블 내용 새로고침
 		setVisible(true);
 	}
 	
@@ -101,7 +101,6 @@ public class FrameSearch extends JFrame {
 	
 	// 검색 결과 테이블 초기화(테이블 외형 초기화)
 	public void initTable() {
-		
 		table.addMouseListener(new MyMouseAdapter());
 		table.addKeyListener(new MyKeyListener());
 		contentPane.setLayout(null);
@@ -112,7 +111,9 @@ public class FrameSearch extends JFrame {
 		contentPane.add(scrollPane);
 	}
 	
-	// 검색 결과 테이블 내용 새로고침
+	// ==============================================================================
+	
+	// 메소드: 검색 결과 테이블 내용 새로고침
 	public void refreshtable() {
 		String header[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
 		String contents[][] = ary;	// 테이블 내용
@@ -123,16 +124,13 @@ public class FrameSearch extends JFrame {
 			}
 		});
 	}
-	
-	// ==============================================================================
-	
-	// 메소드: 검색 결과를 테이블에 반환
+		
+	// 메소드: 검색 결과를 가져와서 테이블 내용을 갱신(새로고침)함
 	public void search() {
-		System.out.println("****** 검색 명령 수행 ******");
 		dbconquery = new DB_Conn_Query();
 		try {
-			ary = dbconquery.sqlRunSearchProcedure(textField.getText());
-			refreshtable();
+			ary = dbconquery.sqlRunSearchProcedure(textField.getText());	// 저장프로시저를 실행하여 데이터 가져옴
+			refreshtable();		// 테이블 내용 새로고침
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
