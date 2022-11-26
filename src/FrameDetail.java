@@ -1,11 +1,16 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.DefaultTableModel;
 
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private DB_Conn_Query dbconquery;
+	private String[] arr = new String[20];
+	
 	private String chName;
 	
 	private JPanel contentPane;
@@ -17,6 +22,7 @@ public class FrameDetail extends JFrame {
 	// 생성자
 	public FrameDetail(String chName) {
 		this.chName = chName;
+		DB_Connect();	// 상세정보 창이 열릴 때 DB에 연결함
 		initFrame();
 		initPanels();
 		initLabels();
@@ -26,6 +32,16 @@ public class FrameDetail extends JFrame {
 		initTextAreas();
 		initButtons();
 		setVisible(true);
+	}
+	
+	// DB에 연결하여 데이터를 가져옴
+	public void DB_Connect() {
+		dbconquery = new DB_Conn_Query();
+		try {
+			arr = dbconquery.sqlRun1(chName);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// Frame 초기화
@@ -86,10 +102,10 @@ public class FrameDetail extends JFrame {
 	public void initTableOfOverview() {
 		String header[] = { "", "" }; // 테이블 헤더
 		String contents[][] = {
-				{ "재질", "" },
-				{ "수량/면적/크기", "" },
-				{ "상태", "" },
-				{ "시대", ""}
+				{ "재질", arr[1] },
+				{ "수량/면적/크기", arr[3] },
+				{ "상태", arr[4] },
+				{ "시대", arr[8] }
 		};
 		tableOfOverview = new JTable();
 		tableOfOverview.setModel(new DefaultTableModel(contents, header));
@@ -103,16 +119,16 @@ public class FrameDetail extends JFrame {
 	public void initTableOfManager() {
 		String header[] = { "", "" };
 		String contents[][] = {
-				{ "관리단체", "" },
-				{ "위치", "" },
-				{ "연락처", "" },
-				{ "문화재 훼손 개수", "" }
+				{ "관리기관", arr[11] },
+				{ "위치", arr[12] },
+				{ "연락처", arr[13] },
+				{ "문화재 훼손 개수", arr[14] }
 		};
 		tableOfCollector = new JTable();
 		tableOfCollector.setModel(new DefaultTableModel(contents, header));
 		tableOfCollector.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfCollector.setEnabled(false);
-		tableOfCollector.setBounds(12, 148, 335, 64);
+		tableOfCollector.setBounds(12, 148, 335, 64);	
 		panelCenter.add(tableOfCollector);
 	}
 	
@@ -120,15 +136,15 @@ public class FrameDetail extends JFrame {
 	public void initTableOfCollector() {
 		String header[] = { "", "" };
 		String contents[][] = {
-				{ "소장기관", "" },
-				{ "위치", "" },
-				{ "소장품번호", "" },
-				{ "연락처", "" },
-				{ "문화재 소장 개수", "" },
-				{ "문화재 도난 개수", "" },
-				{ "박물관 분류", "" },
-				{ "설립 및 운영 주체", "" },
-				{ "박물관 유형", "" }
+				{ "소장기관", arr[15] },
+				{ "위치", arr[16] },
+				{ "소장품번호", arr[6] },
+				{ "연락처", arr[17] },
+				{ "문화재 도난 개수", arr[18] },
+				{ "문화재 소장 개수", arr[19] },
+				{ "박물관 분류", arr[22] },
+				{ "설립 및 운영 주체", arr[23] },
+				{ "박물관 유형", arr[24] }
 		};
 		tableOfManager = new JTable();
 		tableOfManager.setModel(new DefaultTableModel(contents, header));
@@ -145,7 +161,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(scrollPane1);
 		
 		JTextArea textArea1 = new JTextArea();
-		textArea1.setText("문화재 설명\r\n문화재 설명\r\n문화재 설명");
+		textArea1.setText(arr[2]);
 		textArea1.setEditable(false);
 		scrollPane1.setViewportView(textArea1);
 		
@@ -154,7 +170,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(scrollPane2);
 		
 		JTextArea textArea2 = new JTextArea();
-		textArea2.setText("박물관 규정\r\n박물관 규정\r\n박물관 규정");
+		textArea2.setText(arr[25]);
 		textArea2.setEditable(false);
 		scrollPane2.setViewportView(textArea2);
 	}
