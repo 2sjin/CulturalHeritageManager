@@ -1,4 +1,6 @@
 import java.awt.event.*;
+import java.sql.SQLException;
+
 import javax.swing.*;
 import javax.swing.table.*;
 import javax.swing.border.EmptyBorder;
@@ -6,6 +8,7 @@ import java.awt.GridLayout;
 
 public class FrameSearch extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private DB_Conn_Query dbconquery;
 	
 	private JPanel contentPane, radioPanel;
 	private JTextField textField;
@@ -17,12 +20,18 @@ public class FrameSearch extends JFrame {
 	
 	// 생성자
 	public FrameSearch() {
+		DB_Connect();	// UI가 생성되면서 DB에 연결함
 		initFrame();
 		initPanels();
 		initRadioButtons();
 		initSearchComponents();
 		initTable();
 		setVisible(true);
+	}
+	
+	// DB에 연결하여 데이터를 가져옴
+	public void DB_Connect() {
+
 	}
 	
 	// Frame 초기화
@@ -115,7 +124,13 @@ public class FrameSearch extends JFrame {
 	
 	// 메소드: 검색 결과를 테이블에 반환
 	public void search() {
-		JOptionPane.showMessageDialog(null, "검색 명령 수행");
+		System.out.println("****** 검색 명령 수행 ******");
+		dbconquery = new DB_Conn_Query();
+		try {
+			dbconquery.sqlRunSearchProcedure(textField.getText());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// ==============================================================================

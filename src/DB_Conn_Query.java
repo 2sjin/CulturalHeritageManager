@@ -1,16 +1,19 @@
 import java.sql.*;
+import oracle.jdbc.OracleTypes;
 
 public class DB_Conn_Query {
 	Connection con = null;
 	String url = "jdbc:oracle:thin:@localhost:1521:XE"; String id = "heritage"; String password = "1234";
 
+	// 생성자가 실행되면서 드라이버 적재됨
 	public DB_Conn_Query() {
 	try { Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("드라이버 적재 성공");
 	} catch (ClassNotFoundException e) {
 		System.out.println("No Driver."); }
 	}
-
+	
+	// DB 연결(SQL 실행하기 전에 호출됨)
 	private void DB_Connect() {
 		try {
 			con = DriverManager.getConnection(url, id, password);
@@ -20,10 +23,12 @@ public class DB_Conn_Query {
 		}
 	}
 
-	public void sqlRun() throws SQLException {	 // 단순 검색
+	// SQL 실행: 단순 검색
+	public void sqlRun() throws SQLException {	 
 		String keyword1 = "문화재"; //이부분이 라디오 버튼으로 들어갈 것 같습니다.
 		String query = "select * from" + keyword1;
-		try { DB_Connect();
+		try {
+			DB_Connect();
 			Statement stmt = con.createStatement(); 
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
@@ -36,7 +41,8 @@ public class DB_Conn_Query {
 		} finally { con.close(); }
 	}
 
-	public String[] sqlRun1(String chName) throws SQLException {	 // 상세정보 조회
+	// SQL 실행: 상세정보 조회
+	public String[] sqlRunDetail(String chName) throws SQLException {
 		String[] rsArray = new String[26];		// SELECT 결과를 리턴하기 위한 배열
 		String query = "select * from 문화재, 관리기관, 소장기관, 박물관규정 "
 				+ "where 문화재.문화재이름 = ? "
@@ -59,5 +65,24 @@ public class DB_Conn_Query {
 			e.printStackTrace();
 		} finally { con.close(); }
 		return rsArray;
+	}
+	
+	// SQL 실행: 검색을 위한 저장프로시저 호출
+	public void sqlRunSearchProcedure(String keyword) throws SQLException {
+		try {
+			DB_Connect();
+			CallableStatement cstmt = con.prepareCall(" {call SP_문화재검색(?, ?)}");
+			cstmt.setString(1, keyword);
+			cstmt.registerOutParameter(2, OracleTypes.CURSOR);
+			cstmt.executeQuery();
+			ResultSet rs = (ResultSet) cstmt.getObject(2);
+			while (rs.next()) {
+				System.out.println(rs.getString(1));
+			}
+			cstmt.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { con.close(); }
 	}
 }

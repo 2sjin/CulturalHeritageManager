@@ -38,7 +38,7 @@ public class FrameDetail extends JFrame {
 	public void DB_Connect() {
 		dbconquery = new DB_Conn_Query();
 		try {
-			arr = dbconquery.sqlRun1(chName);
+			arr = dbconquery.sqlRunDetail(chName);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
