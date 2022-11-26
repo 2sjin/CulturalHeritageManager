@@ -5,8 +5,8 @@ public class DB_Conn_Query {
 	Connection con = null;
 	String url = "jdbc:oracle:thin:@localhost:1521:XE"; String id = "heritage"; String password = "1234";
 
-	// 생성자가 실행되면서 드라이버 적재됨
-	public DB_Conn_Query() {
+	// 드라이버 적재
+	public void loadDrive() {
 	try { Class.forName("oracle.jdbc.driver.OracleDriver");
 		System.out.println("드라이버 적재 성공");
 	} catch (ClassNotFoundException e) {
