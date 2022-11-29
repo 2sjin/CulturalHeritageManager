@@ -9,10 +9,13 @@ import java.sql.SQLException;
 
 public class FrameSearch extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private int selectedRadioNum = 1;	// 선택된 라디오버튼의 번호
 	private String[][] ary = null;
 	private DB_Conn_Query dbconquery;
 	
 	private JPanel contentPane, radioPanel;
+	public ButtonGroup group;
+	public JRadioButton rb1, rb2, rb3, rb4;
 	private JTextField textField;
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
@@ -60,11 +63,11 @@ public class FrameSearch extends JFrame {
 	
 	// 라디오버튼 초기화
 	public void initRadioButtons() {
-		ButtonGroup group = new ButtonGroup();
-		JRadioButton rb1 = new JRadioButton("문화재", true);
-		JRadioButton rb2 = new JRadioButton("소장기관");
-		JRadioButton rb3 = new JRadioButton("관리기관");
-		JRadioButton rb4 = new JRadioButton("시대");
+		group = new ButtonGroup();
+		rb1 = new JRadioButton("문화재", true);
+		rb2 = new JRadioButton("소장기관");
+		rb3 = new JRadioButton("관리기관");
+		rb4 = new JRadioButton("시대");
 		group.add(rb1);
 		group.add(rb2);
 		group.add(rb3);
@@ -73,6 +76,10 @@ public class FrameSearch extends JFrame {
 		radioPanel.add(rb2);
 		radioPanel.add(rb3);
 		radioPanel.add(rb4);
+		rb1.addActionListener(new MyRadioListener());
+		rb2.addActionListener(new MyRadioListener());
+		rb3.addActionListener(new MyRadioListener());
+		rb4.addActionListener(new MyRadioListener());
 	}
 	
 	// 검색창 및 버튼 컴포넌트 초기화
@@ -115,8 +122,21 @@ public class FrameSearch extends JFrame {
 	
 	// 메소드: 검색 결과 테이블 내용 새로고침
 	public void refreshtable() {
-		String header[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
+		String header[] = null;	// 테이블 헤더
+		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
+		String h2[] = { "소장기관명", "위치", "연락처", "도난", "소장"}; // 테이블 헤더
+		String h3[] = { "관리기관명", "위치", "연락처", "훼손" }; // 테이블 헤더		
+		String h4[] = { "시대명", "???", "???", "???" }; // 테이블 헤더
 		String contents[][] = ary;	// 테이블 내용
+		
+		// 라디오버튼에 따라 헤더가 달라짐
+		switch(selectedRadioNum) {
+			case 1:	header = h1; break;
+			case 2:	header = h2; break;
+			case 3:	header = h3; break;
+			case 4:	header = h4; break;
+		}
+		
 		table.setModel(new DefaultTableModel(contents, header) {
 			private static final long serialVersionUID = 1L;
 			public boolean isCellEditable(int row, int column) {
@@ -162,6 +182,21 @@ public class FrameSearch extends JFrame {
 				}
 				else search();		// 그 외의 경우 검색 수행
 			}
+		}
+	}
+	
+	// ==============================================================================
+	
+	// 내부 클래스: 각 버튼 클릭 시의 이벤트
+	class MyRadioListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (rb1.isSelected())		selectedRadioNum = 1;
+			else if (rb2.isSelected())	selectedRadioNum = 2;
+			else if (rb3.isSelected())	selectedRadioNum = 3;
+			else if (rb4.isSelected())	selectedRadioNum = 4;
+			
+			search();
+			refreshtable();
 		}
 	}
 }
