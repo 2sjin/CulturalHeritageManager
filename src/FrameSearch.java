@@ -187,16 +187,18 @@ public class FrameSearch extends JFrame {
 	
 	// ==============================================================================
 	
-	// 내부 클래스: 각 버튼 클릭 시의 이벤트
+	// 내부 클래스: 라디오버튼이 선택될 때마다 발생하는 이벤트
 	class MyRadioListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (rb1.isSelected())		selectedRadioNum = 1;
 			else if (rb2.isSelected())	selectedRadioNum = 2;
 			else if (rb3.isSelected())	selectedRadioNum = 3;
 			else if (rb4.isSelected())	selectedRadioNum = 4;
-			
-			search();
-			refreshtable();
+			try {
+				dbconquery.sqlRun(selectedRadioNum);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}		
 		}
 	}
 }

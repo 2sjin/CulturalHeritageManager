@@ -26,15 +26,40 @@ public class DB_Conn_Query {
 	}
 
 	// SQL 실행: 단순 검색
-	public void sqlRun() throws SQLException {	 
-		String keyword1 = "문화재"; //이부분이 라디오 버튼으로 들어갈 것 같습니다.
-		String query = "select * from" + keyword1;
+	public void sqlRun(int rbNum) throws SQLException {
+		String dbColumns = "";		// SELECT에 사용할 속성들
+		String dbTableName = "";	// SELECT에 사용할 테이블명
+
+		// 선택된 라디오버튼에 따라 테이블 및 속성 결정
+		switch(rbNum) {
+			case 1:
+				dbColumns = "문화재이름, 소장기관기관명, 관리단체기관명, 시대시대명";
+				dbTableName = "문화재";
+				break;
+			case 2:
+				dbColumns = "*";
+				dbTableName = "소장기관";
+				break;
+			case 3:
+				dbColumns = "*";
+				dbTableName = "관리기관";
+				break;
+			case 4:
+				dbColumns = "*";
+				dbTableName = "시대";
+				break;
+		}
+		
+		String query = "select " + dbColumns + " from " + dbTableName;
 		try {
 			DB_Connect();
 			Statement stmt = con.createStatement(); 
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				System.out.print(rs.getString("문화재이름")+"\t"+rs.getString("시대")+"\t"+rs.getString("소재지및출토지")+"\t"+rs.getString("상태")); //이부분은 제생각엔 인덱스로 들어갈 것 같습니다.-- DB로 실험을 하지 못해 그대로 둠
+				if (rbNum == 4)
+					System.out.print(rs.getString(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3)+"\n");
+				else
+					System.out.print(rs.getString(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3)+"\t"+rs.getString(4)+"\n");
 			}
 			stmt.close(); 
 			rs.close();
