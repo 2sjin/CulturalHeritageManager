@@ -29,7 +29,6 @@ public class DB_Conn_Query {
 	public String[][] sqlRun(int rbNum) throws SQLException {
 		ArrayList<String[]> tempRowArrayList = new ArrayList<>();
 		String[] tempRow = null;
-		String[][] ary = null;
 
 		int dbColumnCount = 0;
 		String dbColumns = "";		// SELECT에 사용할 속성들
@@ -73,18 +72,13 @@ public class DB_Conn_Query {
 				tempRowArrayList.add(tempRow.clone());	// clone() 메소드가 없으면 깊은 복사가 되지 않음
 			}
 			
-			// 배열 ArrayList를 2차원 배열로 변환함(DefaultTableModel에서 사용하기 위함)
-			ary = new String[tempRowArrayList.size()][4];
-			for (int i=0; i<ary.length; i++) {
-				ary[i] = tempRowArrayList.get(i);
-			}
-			
 			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { con.close(); }
-		return ary;
+		
+		return arrayListTo2DArray(tempRowArrayList);
 	}
 
 	// SQL 실행: 상세정보 조회
@@ -113,13 +107,10 @@ public class DB_Conn_Query {
 		return rsArray;
 	}
 	
-	
-	
 	// SQL 실행: 검색을 위한 저장프로시저 호출
 	public String[][] sqlRunSearchProcedure(String keyword) throws SQLException {
 		ArrayList<String[]> tempRowArrayList = new ArrayList<>();
 		String[] tempRow = new String[4];
-		String[][] ary = null;
 
 		try {
 			DB_Connect();
@@ -135,18 +126,23 @@ public class DB_Conn_Query {
 					tempRow[i] = rs.getString(i+1);
 				tempRowArrayList.add(tempRow.clone());	// clone() 메소드가 없으면 깊은 복사가 되지 않음
 			}
-			
-			// 배열 ArrayList를 2차원 배열로 변환함(DefaultTableModel에서 사용하기 위함)
-			ary = new String[tempRowArrayList.size()][4];
-			for (int i=0; i<ary.length; i++) {
-				ary[i] = tempRowArrayList.get(i);
-			}
-			
+
 			cstmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { con.close(); }
-		return ary;
+		
+		return arrayListTo2DArray(tempRowArrayList);
+	}
+	
+	// 배열 ArrayList를 2차원 배열로 변환함(DefaultTableModel에서 사용하기 위함)
+	public String[][] arrayListTo2DArray(ArrayList<String[]> aryList) {
+		String array2D[][] = null;
+		array2D = new String[aryList.size()][4];
+		for (int i=0; i<array2D.length; i++) {
+			array2D[i] = aryList.get(i);
+		}
+		return array2D;
 	}
 }

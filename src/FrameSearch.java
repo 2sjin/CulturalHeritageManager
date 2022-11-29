@@ -156,17 +156,23 @@ public class FrameSearch extends JFrame {
 		}
 	}
 	
+	// 테이블 더블클릭 또는 [Enter] 키 클릭 시 실행할 명렁
+	public void tableEnterCommand() {
+		int row = table.getSelectedRow();
+		int column = 0;
+		String chName = (String) table.getValueAt(row, column); // 문화재명
+		if (selectedRadioNum == 1)	// '문화재' 라디오버튼이 선택된 경우
+			new FrameDetail(chName); // 상세 페이지 생성(생성자의 매개변수로 문화재이름 전달)
+	}
+	
 	// ==============================================================================
 	
 	// 내부 클래스: 더블 클릭 시(테이블)의 이벤트
 	class MyMouseAdapter extends MouseAdapter {
 		public void mouseClicked(MouseEvent e) {
-			int row = table.getSelectedRow();
-			int column = 0;
-			String chName = (String) table.getValueAt(row, column); // 문화재명
-
-			if (e.getClickCount() >= 2) // 더블클릭이 감지되면
-				new FrameDetail(chName); // 상세 페이지 생성(생성자의 매개변수로 문화재이름 전달)
+			if (e.getClickCount() >= 2) { // 더블클릭이 감지되었을 때
+				tableEnterCommand();
+			}
 		}
 	}
 	
@@ -175,10 +181,7 @@ public class FrameSearch extends JFrame {
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
 				if (e.getSource() == table) {	// 테이블에서 [Enter] 키 입력 시
-					int row = table.getSelectedRow();
-					int column = 0;
-					String chName = (String) table.getValueAt(row, column); // 문화재명
-					new FrameDetail(chName); // 상세 페이지 생성
+					tableEnterCommand();
 				}
 				else search();		// 그 외의 경우 검색 수행
 			}
