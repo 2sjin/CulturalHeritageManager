@@ -126,7 +126,7 @@ public class FrameSearch extends JFrame {
 		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
 		String h2[] = { "소장기관명", "위치", "연락처", "도난", "소장"}; // 테이블 헤더
 		String h3[] = { "관리기관명", "위치", "연락처", "훼손" }; // 테이블 헤더		
-		String h4[] = { "시대명", "???", "???", "???" }; // 테이블 헤더
+		String h4[] = { "시대명", "년대", "한반도 내 나라" }; // 테이블 헤더
 		String contents[][] = ary;	// 테이블 내용
 		
 		// 라디오버튼에 따라 헤더가 달라짐
@@ -195,10 +195,11 @@ public class FrameSearch extends JFrame {
 			else if (rb3.isSelected())	selectedRadioNum = 3;
 			else if (rb4.isSelected())	selectedRadioNum = 4;
 			try {
-				dbconquery.sqlRun(selectedRadioNum);
+				ary = dbconquery.sqlRun(selectedRadioNum);
+				refreshtable();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
-			}		
+			}
 		}
 	}
 }

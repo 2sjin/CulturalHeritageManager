@@ -25,47 +25,66 @@ public class DB_Conn_Query {
 		}
 	}
 
-	// SQL 실행: 단순 검색
-	public void sqlRun(int rbNum) throws SQLException {
+	// SQL 실행: 단순 검색(전체 검색)
+	public String[][] sqlRun(int rbNum) throws SQLException {
+		ArrayList<String[]> tempRowArrayList = new ArrayList<>();
+		String[] tempRow = null;
+		String[][] ary = null;
+
+		int dbColumnCount = 0;
 		String dbColumns = "";		// SELECT에 사용할 속성들
 		String dbTableName = "";	// SELECT에 사용할 테이블명
 
 		// 선택된 라디오버튼에 따라 테이블 및 속성 결정
 		switch(rbNum) {
 			case 1:
+				dbColumnCount = 4;
 				dbColumns = "문화재이름, 소장기관기관명, 관리단체기관명, 시대시대명";
 				dbTableName = "문화재";
 				break;
 			case 2:
-				dbColumns = "*";
+				dbColumnCount = 5;
+				dbColumns = "기관명, 기관위치, 연락처, 도난개수, 소장개수";
 				dbTableName = "소장기관";
 				break;
 			case 3:
-				dbColumns = "*";
+				dbColumnCount = 4;
+				dbColumns = "기관명, 기관위치, 연락처, 훼손개수";
 				dbTableName = "관리기관";
 				break;
 			case 4:
-				dbColumns = "*";
+				dbColumnCount = 3;
+				dbColumns = "시대명, 년대, 한반도내나라";
 				dbTableName = "시대";
 				break;
 		}
+		tempRow = new String[dbColumnCount];
 		
 		String query = "select " + dbColumns + " from " + dbTableName;
 		try {
 			DB_Connect();
 			Statement stmt = con.createStatement(); 
 			ResultSet rs = stmt.executeQuery(query);
+			
+			// 각 행을 배열 형태로 저장한 뒤, 배열을 ArrayList에 저장함 (2차원 구조)
 			while (rs.next()) {
-				if (rbNum == 4)
-					System.out.print(rs.getString(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3)+"\n");
-				else
-					System.out.print(rs.getString(1)+"\t"+rs.getString(2)+"\t"+rs.getString(3)+"\t"+rs.getString(4)+"\n");
+				for (int i=0; i<tempRow.length; i++)
+					tempRow[i] = rs.getString(i+1);
+				tempRowArrayList.add(tempRow.clone());	// clone() 메소드가 없으면 깊은 복사가 되지 않음
 			}
-			stmt.close(); 
+			
+			// 배열 ArrayList를 2차원 배열로 변환함(DefaultTableModel에서 사용하기 위함)
+			ary = new String[tempRowArrayList.size()][4];
+			for (int i=0; i<ary.length; i++) {
+				ary[i] = tempRowArrayList.get(i);
+			}
+			
+			stmt.close();
 			rs.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally { con.close(); }
+		return ary;
 	}
 
 	// SQL 실행: 상세정보 조회
