@@ -68,7 +68,7 @@ public class FrameSearch extends JFrame {
 		group = new ButtonGroup();
 		rb1 = new JRadioButton("문화재(검색 결과)", true);
 		rb2 = new JRadioButton("전체 소장기관 조회");
-		rb3 = new JRadioButton("전체 관리기관 조회");
+		rb3 = new JRadioButton("전체 관리단체 조회");
 		group.add(rb1);
 		group.add(rb2);
 		group.add(rb3);
@@ -82,7 +82,7 @@ public class FrameSearch extends JFrame {
 	
 	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
-		lblNewLabel = new JLabel("문화재 검색하기(문화재이름/소장기관/관리기관/시대) : 전체 문화재 조회는 공백 검색");
+		lblNewLabel = new JLabel("문화재 검색하기(문화재이름/소장기관/관리단체/시대) : 전체 문화재 조회는 공백 검색");
 		lblNewLabel.setBounds(12, 59, 541, 29);
 		contentPane.add(lblNewLabel);
 		
@@ -127,9 +127,9 @@ public class FrameSearch extends JFrame {
 		String[] header = null;	// 테이블 헤더
 		int[] width = null;
 		
-		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대", "상태"}; // 테이블 헤더
+		String h1[] = { "문화재이름", "소장기관", "관리단체", "시대", "상태"}; // 테이블 헤더
 		String h2[] = { "소장기관명", "위치", "연락처", "도난", "소장"}; // 테이블 헤더
-		String h3[] = { "관리기관명", "위치", "연락처", "훼손" }; // 테이블 헤더		
+		String h3[] = { "관리단체명", "위치", "연락처", "훼손" }; // 테이블 헤더		
 
 		int width1[] = {100, 80, 100, 30, 15};
 		int width2[] = {90, 180, 90, 15, 15};

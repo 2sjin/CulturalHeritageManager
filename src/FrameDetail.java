@@ -83,7 +83,7 @@ public class FrameDetail extends JFrame {
 		caption1.setBounds(12, 10, 275, 15);
 		panelCenter.add(caption1);
 		
-		JLabel caption2 = new JLabel("관리기관 정보");
+		JLabel caption2 = new JLabel("관리단체 정보");
 		caption2.setBounds(12, 123, 275, 15);
 		panelCenter.add(caption2);
 		
@@ -122,7 +122,7 @@ public class FrameDetail extends JFrame {
 	public void initTableOfManager() {
 		String header[] = { "", "" };
 		String contents[][] = {
-				{ "관리기관", arr[11] },
+				{ "기관명", arr[11] },
 				{ "위치", arr[12] },
 				{ "연락처", arr[13] },
 				{ "문화재 훼손 개수", arr[14] }
@@ -140,7 +140,7 @@ public class FrameDetail extends JFrame {
 	public void initTableOfCollector() {
 		String header[] = { "", "" };
 		String contents[][] = {
-				{ "소장기관", arr[15] },
+				{ "기관명", arr[15] },
 				{ "위치", arr[16] },
 				{ "소장품번호", arr[6] },
 				{ "연락처", arr[17] },

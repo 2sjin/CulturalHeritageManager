@@ -49,7 +49,7 @@ public class DB_Conn_Query {
 			case 3:
 				dbColumnCount = 4;
 				dbColumns = "기관명, 기관위치, 연락처, 훼손개수";
-				dbTableName = "관리기관";
+				dbTableName = "관리단체";
 				break;
 		}
 		tempRow = new String[dbColumnCount];
@@ -79,9 +79,9 @@ public class DB_Conn_Query {
 	// SQL 실행: 상세정보 조회
 	public String[] sqlRunDetail(String chName) throws SQLException {
 		String[] rsArray = new String[29];		// SELECT 결과를 리턴하기 위한 배열
-		String query = "select * from 문화재, 관리기관, 소장기관, 박물관규정, 시대 "
+		String query = "select * from 문화재, 관리단체, 소장기관, 박물관규정, 시대 "
 				+ "where 문화재.문화재이름 = ? "
-				+ "and 문화재.관리단체기관명 = 관리기관.기관명 "
+				+ "and 문화재.관리단체기관명 = 관리단체.기관명 "
 				+ "and 문화재.소장기관기관명 = 소장기관.기관명 "
 				+ "and 소장기관.박물관규정 = 박물관규정.종류ID "
 				+ "and 문화재.시대시대명 = 시대.시대명";
