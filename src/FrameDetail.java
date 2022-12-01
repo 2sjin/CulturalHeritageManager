@@ -27,9 +27,8 @@ public class FrameDetail extends JFrame {
 		initFrame();
 		initPanels();
 		initLabels();
-		initTableOfOverview();
-		initTableOfManager();
-		initTableOfCollector();
+		initTables();
+		refreshAllTables();
 		initTextAreas();
 		initButtons();
 		setVisible(true);
@@ -100,8 +99,35 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(labelDesc2);
 	}
 	
-	// 개요 테이블 초기화
-	public void initTableOfOverview() {
+	// 테이블 초기화
+	public void initTables() {
+		tableOfOverview = new JTable();
+		tableOfOverview.setEnabled(false);
+		tableOfOverview.setBounds(12, 35, 468, 64);
+		panelCenter.add(tableOfOverview);
+		
+		tableOfCollector = new JTable();
+		tableOfCollector.setEnabled(false);
+		tableOfCollector.setBounds(12, 148, 468, 64);	
+		panelCenter.add(tableOfCollector);
+		
+		tableOfManager = new JTable();
+		tableOfManager.setEnabled(false);
+		tableOfManager.setBounds(506, 35, 468, 144);
+		panelCenter.add(tableOfManager);
+	}
+	
+	// 모든 테이블 새로고침
+	public void refreshAllTables() {
+		DB_Connect();
+		setTableModelOfOverview();
+		setTableModelOfManager();
+		setTableModelOfCollector();
+	}
+	
+	// 개요 테이블 모델 설정
+	public void setTableModelOfOverview() {
+		DB_Connect();
 		String header[] = { "", "" }; // 테이블 헤더
 		String contents[][] = {
 				{ "재질", arr[1] },
@@ -109,17 +135,13 @@ public class FrameDetail extends JFrame {
 				{ "상태", arr[4] },
 				{ "시대", arr[26]+" ("+arr[27]+", "+arr[28]+")" }
 		};
-		tableOfOverview = new JTable();
 		tableOfOverview.setModel(new DefaultTableModel(contents, header));
 		tableOfOverview.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfOverview.getColumnModel().getColumn(1).setPreferredWidth(280);
-		tableOfOverview.setEnabled(false);
-		tableOfOverview.setBounds(12, 35, 468, 64);
-		panelCenter.add(tableOfOverview);
 	}
 	
-	// Table3 초기화
-	public void initTableOfManager() {
+	// 관리단체 테이블 모델 설정
+	public void setTableModelOfManager() {
 		String header[] = { "", "" };
 		String contents[][] = {
 				{ "기관명", arr[11] },
@@ -127,17 +149,13 @@ public class FrameDetail extends JFrame {
 				{ "연락처", arr[13] },
 				{ "문화재 훼손 개수", arr[14] }
 		};
-		tableOfCollector = new JTable();
 		tableOfCollector.setModel(new DefaultTableModel(contents, header));
 		tableOfCollector.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfCollector.getColumnModel().getColumn(1).setPreferredWidth(280);
-		tableOfCollector.setEnabled(false);
-		tableOfCollector.setBounds(12, 148, 468, 64);	
-		panelCenter.add(tableOfCollector);
 	}
 	
-	// 소장기관 테이블 초기화
-	public void initTableOfCollector() {
+	// 소장기관 테이블 모델 설정
+	public void setTableModelOfCollector() {
 		String header[] = { "", "" };
 		String contents[][] = {
 				{ "기관명", arr[15] },
@@ -150,13 +168,9 @@ public class FrameDetail extends JFrame {
 				{ "설립 및 운영 주체", arr[23] },
 				{ "박물관 유형", arr[24] }
 		};
-		tableOfManager = new JTable();
 		tableOfManager.setModel(new DefaultTableModel(contents, header));
 		tableOfManager.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfManager.getColumnModel().getColumn(1).setPreferredWidth(280);
-		tableOfManager.setEnabled(false);
-		tableOfManager.setBounds(506, 35, 468, 144);
-		panelCenter.add(tableOfManager);
 	}
 	
 	// 텍스트 영역 초기화
@@ -214,11 +228,12 @@ public class FrameDetail extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				dbconquery.sqlRunTrigger(chName, "보존", "훼손");
+				refreshAllTables();
+				JOptionPane.showMessageDialog(null, "문화재가 훼손 처리되었습니다.",
+						"문화재 훼손", JOptionPane.WARNING_MESSAGE);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "문화재가 훼손 처리되었습니다.",
-					"문화재 훼손", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 	
@@ -226,16 +241,18 @@ public class FrameDetail extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				dbconquery.sqlRunTrigger(chName, "훼손", "보존");
+				refreshAllTables();
+				JOptionPane.showMessageDialog(null, "훼손된 문화재가 보존 상태로 복구되었습니다.",
+						"훼손 복구", JOptionPane.INFORMATION_MESSAGE);
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-			JOptionPane.showMessageDialog(null, "훼손된 문화재가 보존 상태로 복구되었습니다.",
-					"훼손 복구", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 	
 	class MyActionListener3 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			refreshAllTables();
 			JOptionPane.showMessageDialog(null, "문화재가 분실 처리되었습니다.",
 					"문화재 분실", JOptionPane.WARNING_MESSAGE);
 		}
@@ -243,6 +260,7 @@ public class FrameDetail extends JFrame {
 	
 	class MyActionListener4 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			refreshAllTables();
 			JOptionPane.showMessageDialog(null, "분실된 문화재가 보존 상태로 복구되었습니다.",
 					"분실 복구", JOptionPane.INFORMATION_MESSAGE);
 		}

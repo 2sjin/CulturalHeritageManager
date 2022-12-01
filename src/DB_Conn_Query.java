@@ -132,7 +132,7 @@ public class DB_Conn_Query {
 		return arrayListTo2DArray(tempRowArrayList);
 	}
 	
-	// 트리거 실행될 부분
+	// SQL 실행: 트리거를 실행하기 위한 UPDATE문
 	public void sqlRunTrigger(String chName, String beforeStatus, String afterStatus) throws SQLException {
 		String query = "UPDATE 문화재 SET 상태 = ? WHERE 상태 = ? and 문화재이름 = ?";
 		try {

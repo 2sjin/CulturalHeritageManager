@@ -26,7 +26,6 @@ public class FrameSearch extends JFrame {
 	
 	// 생성자
 	public FrameSearch() {
-		DB_Connect();	// UI가 생성되면서 DB에 연결함
 		initFrame();
 		initPanels();
 		initRadioButtons();
@@ -35,11 +34,6 @@ public class FrameSearch extends JFrame {
 		search();		// 검색을 수행하여 데이터 가져옴(초기에는 공백을 검색하여 전체 데이터를 가져옴)
 		refreshtable();	// 검색 결과를 바탕으로 테이블 내용 새로고침
 		setVisible(true);
-	}
-	
-	// DB에 연결하여 데이터를 가져옴
-	public void DB_Connect() {
-
 	}
 	
 	// Frame 초기화
@@ -174,8 +168,9 @@ public class FrameSearch extends JFrame {
 		int row = table.getSelectedRow();
 		int column = 0;
 		String chName = (String) table.getValueAt(row, column); // 문화재명
-		if (selectedRadioNum == 1)	// '문화재' 라디오버튼이 선택된 경우
+		if (selectedRadioNum == 1) {	// '문화재' 라디오버튼이 선택된 경우
 			new FrameDetail(chName); // 상세 페이지 생성(생성자의 매개변수로 문화재이름 전달)
+		}
 	}
 	
 	// ==============================================================================
