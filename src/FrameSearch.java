@@ -46,6 +46,7 @@ public class FrameSearch extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// 해당 프레임을 종료하면 프로그램 전체 종료
 		setTitle("문화재 관리 프로그램");
 		setSize(600, 400);
+		setResizable(false);	// 프레임 크기 조정 불가능
 	}
 	
 	// Panel 초기화

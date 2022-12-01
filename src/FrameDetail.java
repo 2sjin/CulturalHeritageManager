@@ -49,6 +49,7 @@ public class FrameDetail extends JFrame {
 	public void initFrame() {
 		setTitle(chName);
 		setBounds(100, 100, 750, 600);
+		setResizable(false);	// 프레임 크기 조정 불가능
 	}
 	
 	// Panel 초기화

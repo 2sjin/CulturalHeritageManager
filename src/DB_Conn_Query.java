@@ -108,7 +108,7 @@ public class DB_Conn_Query {
 		return rsArray;
 	}
 	
-	// SQL 실행: 검색을 위한 저장프로시저 호출
+	// SQL 실행: 문화재 검색을 위한 저장프로시저 호출
 	public String[][] sqlRunSearchProcedure(String keyword) throws SQLException {
 		ArrayList<String[]> tempRowArrayList = new ArrayList<>();
 		String[] tempRow = new String[4];
