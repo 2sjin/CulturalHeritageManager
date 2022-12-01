@@ -59,7 +59,7 @@ public class FrameSearch extends JFrame {
 		radioPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
 		radioPanel.setLocation(12, 13);
 		radioPanel.setSize(662, 27);
-		radioPanel.setLayout(new GridLayout(0, 4, 0, 0));
+		radioPanel.setLayout(new GridLayout(0, 3, 0, 0));
 		contentPane.add(radioPanel);
 	}
 	
@@ -69,24 +69,20 @@ public class FrameSearch extends JFrame {
 		rb1 = new JRadioButton("문화재(검색 결과)", true);
 		rb2 = new JRadioButton("전체 소장기관 조회");
 		rb3 = new JRadioButton("전체 관리기관 조회");
-		rb4 = new JRadioButton("전체 시대 조회");
 		group.add(rb1);
 		group.add(rb2);
 		group.add(rb3);
-		group.add(rb4);
 		radioPanel.add(rb1);
 		radioPanel.add(rb2);
 		radioPanel.add(rb3);
-		radioPanel.add(rb4);
 		rb1.addActionListener(new MyRadioListener());
 		rb2.addActionListener(new MyRadioListener());
 		rb3.addActionListener(new MyRadioListener());
-		rb4.addActionListener(new MyRadioListener());
 	}
 	
 	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
-		lblNewLabel = new JLabel("문화재 검색하기(문화재이름/소장기관/관리기관) : 전체 문화재 조회는 공백 검색");
+		lblNewLabel = new JLabel("문화재 검색하기(문화재이름/소장기관/관리기관/시대) : 전체 문화재 조회는 공백 검색");
 		lblNewLabel.setBounds(12, 59, 541, 29);
 		contentPane.add(lblNewLabel);
 		
@@ -134,12 +130,10 @@ public class FrameSearch extends JFrame {
 		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대", "상태"}; // 테이블 헤더
 		String h2[] = { "소장기관명", "위치", "연락처", "도난", "소장"}; // 테이블 헤더
 		String h3[] = { "관리기관명", "위치", "연락처", "훼손" }; // 테이블 헤더		
-		String h4[] = { "시대명", "년대", "한반도 내 나라" }; // 테이블 헤더
 
 		int width1[] = {100, 80, 100, 30, 15};
 		int width2[] = {90, 180, 90, 15, 15};
 		int width3[] = {90, 180, 90, 15};
-		int width4[] = {15, 15, 15};
 		
 		String contents[][] = ary;	// 테이블 내용
 		
@@ -148,7 +142,6 @@ public class FrameSearch extends JFrame {
 			case 1:	header = h1; width = width1; break;
 			case 2:	header = h2; width = width2; break;
 			case 3:	header = h3; width = width3; break;
-			case 4:	header = h4; width = width4; break;
 		}
 		
 		table.setModel(new DefaultTableModel(contents, header) {
@@ -216,7 +209,6 @@ public class FrameSearch extends JFrame {
 			if (rb1.isSelected())		selectedRadioNum = 1;
 			else if (rb2.isSelected())	selectedRadioNum = 2;
 			else if (rb3.isSelected())	selectedRadioNum = 3;
-			else if (rb4.isSelected())	selectedRadioNum = 4;
 			try {
 				ary = dbconquery.sqlRun(selectedRadioNum);
 				refreshtable();

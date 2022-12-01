@@ -51,11 +51,6 @@ public class DB_Conn_Query {
 				dbColumns = "기관명, 기관위치, 연락처, 훼손개수";
 				dbTableName = "관리기관";
 				break;
-			case 4:
-				dbColumnCount = 3;
-				dbColumns = "시대명, 년대, 한반도내나라";
-				dbTableName = "시대";
-				break;
 		}
 		tempRow = new String[dbColumnCount];
 		
@@ -138,8 +133,19 @@ public class DB_Conn_Query {
 	}
 	
 	// 트리거 실행될 부분
-	public void sqlRunTrigger() {
-		
+	public void sqlRunTrigger(String chName, String beforeStatus, String afterStatus) throws SQLException {
+		String query = "UPDATE 문화재 SET 상태 = ? WHERE 상태 = ? and 문화재이름 = ?";
+		try {
+			DB_Connect();
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1, afterStatus);
+			pstmt.setString(2, beforeStatus);
+			pstmt.setString(3, chName);
+			pstmt.executeUpdate();
+			pstmt.close(); 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally { con.close(); }
 	}
 	
 	// 배열 ArrayList를 2차원 배열로 변환함(DefaultTableModel에서 사용하기 위함)

@@ -212,6 +212,11 @@ public class FrameDetail extends JFrame {
 	// 내부 클래스: 각 버튼 클릭 시의 이벤트
 	class MyActionListener1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			try {
+				dbconquery.sqlRunTrigger(chName, "보존", "훼손");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			JOptionPane.showMessageDialog(null, "문화재가 훼손 처리되었습니다.",
 					"문화재 훼손", JOptionPane.WARNING_MESSAGE);
 		}
@@ -219,6 +224,11 @@ public class FrameDetail extends JFrame {
 	
 	class MyActionListener2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			try {
+				dbconquery.sqlRunTrigger(chName, "훼손", "보존");
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			JOptionPane.showMessageDialog(null, "훼손된 문화재가 보존 상태로 복구되었습니다.",
 					"훼손 복구", JOptionPane.INFORMATION_MESSAGE);
 		}
