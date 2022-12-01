@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DB_Conn_Query dbconquery;
-	private String[] arr = new String[32];
+	private String[] arr = new String[34];
 	
 	private String chName;
 	
@@ -87,8 +87,12 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(caption2);
 		
 		JLabel caption3 = new JLabel("소장기관 정보");
-		caption3.setBounds(506, 10, 292, 15);
+		caption3.setBounds(506, 58, 292, 15);
 		panelCenter.add(caption3);
+
+		JLabel caption4 = new JLabel("문화재 분류");
+		caption4.setBounds(506, 10, 87, 15);
+		panelCenter.add(caption4);
 		
 		JLabel labelDesc1 = new JLabel("문화재 설명");
 		labelDesc1.setBounds(12, 253, 292, 15);
@@ -96,7 +100,7 @@ public class FrameDetail extends JFrame {
 		
 		JLabel labelDesc2 = new JLabel("박물관 규정");
 		labelDesc2.setBounds(506, 253, 292, 15);
-		panelCenter.add(labelDesc2);
+		panelCenter.add(labelDesc2);		
 	}
 	
 	// 테이블 초기화
@@ -113,7 +117,7 @@ public class FrameDetail extends JFrame {
 		
 		tableOfManager = new JTable();
 		tableOfManager.setEnabled(false);
-		tableOfManager.setBounds(506, 35, 468, 144);
+		tableOfManager.setBounds(506, 83, 468, 144);
 		panelCenter.add(tableOfManager);
 	}
 	
@@ -195,6 +199,12 @@ public class FrameDetail extends JFrame {
 		textArea2.setText(arr[25]);
 		textArea2.setEditable(false);
 		scrollPane2.setViewportView(textArea2);
+		
+		JTextArea textArea3 = new JTextArea();
+		textArea3.setText(arr[32]);
+		textArea3.setEditable(false);
+		textArea3.setBounds(506, 30, 468, 18);
+		panelCenter.add(textArea3);
 	}
 	
 	// 버튼 초기화(이벤트 포함)
