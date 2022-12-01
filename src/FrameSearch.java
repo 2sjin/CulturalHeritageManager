@@ -123,19 +123,27 @@ public class FrameSearch extends JFrame {
 	
 	// 메소드: 검색 결과 테이블 내용 새로고침
 	public void refreshtable() {
-		String header[] = null;	// 테이블 헤더
+		String[] header = null;	// 테이블 헤더
+		int[] width = null;
+		
 		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
 		String h2[] = { "소장기관명", "위치", "연락처", "도난", "소장"}; // 테이블 헤더
 		String h3[] = { "관리기관명", "위치", "연락처", "훼손" }; // 테이블 헤더		
 		String h4[] = { "시대명", "년대", "한반도 내 나라" }; // 테이블 헤더
+
+		int width1[] = {15, 15, 15, 15};
+		int width2[] = {90, 180, 90, 15, 15};
+		int width3[] = {90, 180, 90, 15};
+		int width4[] = {15, 15, 15};
+		
 		String contents[][] = ary;	// 테이블 내용
 		
 		// 라디오버튼에 따라 헤더가 달라짐
 		switch(selectedRadioNum) {
-			case 1:	header = h1; break;
-			case 2:	header = h2; break;
-			case 3:	header = h3; break;
-			case 4:	header = h4; break;
+			case 1:	header = h1; width = width1; break;
+			case 2:	header = h2; width = width2; break;
+			case 3:	header = h3; width = width3; break;
+			case 4:	header = h4; width = width4; break;
 		}
 		
 		table.setModel(new DefaultTableModel(contents, header) {
@@ -144,6 +152,10 @@ public class FrameSearch extends JFrame {
 				return false;
 			}
 		});
+		
+		// 열의 폭 조정
+		for (int i=0; i<header.length; i++)
+			table.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
 	}
 		
 	// 메소드: 검색 결과를 가져와서 테이블 내용을 갱신(새로고침)함
