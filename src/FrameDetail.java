@@ -48,7 +48,7 @@ public class FrameDetail extends JFrame {
 	// Frame 초기화
 	public void initFrame() {
 		setTitle(chName);
-		setBounds(100, 100, 750, 600);
+		setBounds(100, 100, 1000, 600);
 		setResizable(false);	// 프레임 크기 조정 불가능
 	}
 	
@@ -88,7 +88,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(caption2);
 		
 		JLabel caption3 = new JLabel("소장기관 정보");
-		caption3.setBounds(382, 10, 292, 15);
+		caption3.setBounds(506, 10, 292, 15);
 		panelCenter.add(caption3);
 		
 		JLabel labelDesc1 = new JLabel("문화재 설명");
@@ -96,7 +96,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(labelDesc1);
 		
 		JLabel labelDesc2 = new JLabel("박물관 규정");
-		labelDesc2.setBounds(382, 237, 292, 15);
+		labelDesc2.setBounds(506, 237, 292, 15);
 		panelCenter.add(labelDesc2);
 	}
 	
@@ -112,8 +112,9 @@ public class FrameDetail extends JFrame {
 		tableOfOverview = new JTable();
 		tableOfOverview.setModel(new DefaultTableModel(contents, header));
 		tableOfOverview.getColumnModel().getColumn(0).setPreferredWidth(15);
+		tableOfOverview.getColumnModel().getColumn(1).setPreferredWidth(280);
 		tableOfOverview.setEnabled(false);
-		tableOfOverview.setBounds(12, 35, 335, 64);
+		tableOfOverview.setBounds(12, 35, 468, 64);
 		panelCenter.add(tableOfOverview);
 	}
 	
@@ -129,8 +130,9 @@ public class FrameDetail extends JFrame {
 		tableOfCollector = new JTable();
 		tableOfCollector.setModel(new DefaultTableModel(contents, header));
 		tableOfCollector.getColumnModel().getColumn(0).setPreferredWidth(15);
+		tableOfCollector.getColumnModel().getColumn(1).setPreferredWidth(280);
 		tableOfCollector.setEnabled(false);
-		tableOfCollector.setBounds(12, 148, 335, 64);	
+		tableOfCollector.setBounds(12, 148, 468, 64);	
 		panelCenter.add(tableOfCollector);
 	}
 	
@@ -151,15 +153,16 @@ public class FrameDetail extends JFrame {
 		tableOfManager = new JTable();
 		tableOfManager.setModel(new DefaultTableModel(contents, header));
 		tableOfManager.getColumnModel().getColumn(0).setPreferredWidth(15);
+		tableOfManager.getColumnModel().getColumn(1).setPreferredWidth(280);
 		tableOfManager.setEnabled(false);
-		tableOfManager.setBounds(382, 35, 335, 144);
+		tableOfManager.setBounds(506, 35, 468, 144);
 		panelCenter.add(tableOfManager);
 	}
 	
 	// 텍스트 영역 초기화
 	public void initTextAreas() {
 		JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setBounds(12, 262, 335, 177);
+		scrollPane1.setBounds(12, 262, 468, 177);
 		panelCenter.add(scrollPane1);
 		
 		JTextArea textArea1 = new JTextArea();
@@ -168,7 +171,7 @@ public class FrameDetail extends JFrame {
 		scrollPane1.setViewportView(textArea1);
 		
 		JScrollPane scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(382, 262, 335, 177);
+		scrollPane2.setBounds(506, 262, 468, 177);
 		panelCenter.add(scrollPane2);
 		
 		JTextArea textArea2 = new JTextArea();
