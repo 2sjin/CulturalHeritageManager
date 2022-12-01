@@ -17,7 +17,7 @@ public class FrameSearch extends JFrame {
 	private JPanel contentPane, radioPanel;
 	public ButtonGroup group;
 	public JRadioButton rb1, rb2, rb3, rb4;
-	private JLabel lbl1, lbl2;
+	private JLabel lbl1, lbl2, lblTableComment;
 	private JTextField textField;
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
@@ -41,7 +41,7 @@ public class FrameSearch extends JFrame {
 	public void initFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// 해당 프레임을 종료하면 프로그램 전체 종료
 		setTitle("문화재 관리 프로그램");
-		setSize(700, 550);
+		setSize(700, 600);
 		setResizable(false);	// 프레임 크기 조정 불가능
 		addWindowListener(new MyWindowListener());
 	}
@@ -118,8 +118,13 @@ public class FrameSearch extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 하나만 선택 가능
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(12, 138, 662, 365);
-		contentPane.add(scrollPane);		
+		scrollPane.setBounds(12, 138, 662, 390);
+		contentPane.add(scrollPane);
+		
+		lblTableComment = new JLabel();
+		lblTableComment.setText("※ 테이블 내 문화재 항목을 더블클릭(또는 [Enter] 키 입력)하면, 상세한 정보를 확인할 수 있습니다.");
+		lblTableComment.setBounds(12, 538, 662, 15);
+		contentPane.add(lblTableComment);
 	}
 	
 	// ==============================================================================
@@ -156,6 +161,12 @@ public class FrameSearch extends JFrame {
 		// 열의 폭 조정
 		for (int i=0; i<header.length; i++)
 			table.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
+		
+		// 문화제 테이블일 경우에는 설명 레이블 표시
+		if (selectedRadioNum == 1)
+			lblTableComment.setVisible(true);
+		else
+			lblTableComment.setVisible(false);
 	}
 		
 	// 메소드: DB에서 검색한 결과를 가져와서 테이블 내용을 갱신(새로고침)함
@@ -163,11 +174,11 @@ public class FrameSearch extends JFrame {
 		dbconquery = new DB_Conn_Query();
 		try {
 			ary = dbconquery.sqlRunSearchProcedure(textField.getText());	// 저장프로시저를 실행하여 데이터 가져옴
+			selectedRadioNum = 1;
+			rb1.setSelected(true);
 			refreshtable();		// 테이블 내용 새로고침
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			rb1.setSelected(true);
 		}
 	}
 	
@@ -219,6 +230,7 @@ public class FrameSearch extends JFrame {
 			if (rb1.isSelected())		selectedRadioNum = 1;
 			else if (rb2.isSelected())	selectedRadioNum = 2;
 			else if (rb3.isSelected())	selectedRadioNum = 3;
+			
 			try {
 				ary = dbconquery.sqlRun(selectedRadioNum);
 				refreshtable();
