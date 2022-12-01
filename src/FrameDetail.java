@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DB_Conn_Query dbconquery;
-	private String[] arr = new String[20];
+	private String[] arr = new String[29];
 	
 	private String chName;
 	
@@ -106,7 +106,7 @@ public class FrameDetail extends JFrame {
 				{ "재질", arr[1] },
 				{ "수량/면적/크기", arr[3] },
 				{ "상태", arr[4] },
-				{ "시대", arr[8] }
+				{ "시대", arr[26]+" ("+arr[27]+", "+arr[28]+")" }
 		};
 		tableOfOverview = new JTable();
 		tableOfOverview.setModel(new DefaultTableModel(contents, header));
