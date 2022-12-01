@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DB_Conn_Query dbconquery;
-	private String[] arr = new String[29];
+	private String[] arr = new String[32];
 	
 	private String chName;
 	
@@ -83,7 +83,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(caption1);
 		
 		JLabel caption2 = new JLabel("관리단체 정보");
-		caption2.setBounds(12, 123, 275, 15);
+		caption2.setBounds(12, 138, 275, 15);
 		panelCenter.add(caption2);
 		
 		JLabel caption3 = new JLabel("소장기관 정보");
@@ -91,11 +91,11 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(caption3);
 		
 		JLabel labelDesc1 = new JLabel("문화재 설명");
-		labelDesc1.setBounds(12, 237, 292, 15);
+		labelDesc1.setBounds(12, 253, 292, 15);
 		panelCenter.add(labelDesc1);
 		
 		JLabel labelDesc2 = new JLabel("박물관 규정");
-		labelDesc2.setBounds(506, 237, 292, 15);
+		labelDesc2.setBounds(506, 253, 292, 15);
 		panelCenter.add(labelDesc2);
 	}
 	
@@ -103,12 +103,12 @@ public class FrameDetail extends JFrame {
 	public void initTables() {
 		tableOfOverview = new JTable();
 		tableOfOverview.setEnabled(false);
-		tableOfOverview.setBounds(12, 35, 468, 64);
+		tableOfOverview.setBounds(12, 35, 468, 78);
 		panelCenter.add(tableOfOverview);
 		
 		tableOfCollector = new JTable();
 		tableOfCollector.setEnabled(false);
-		tableOfCollector.setBounds(12, 148, 468, 64);	
+		tableOfCollector.setBounds(12, 163, 468, 64);	
 		panelCenter.add(tableOfCollector);
 		
 		tableOfManager = new JTable();
@@ -133,7 +133,8 @@ public class FrameDetail extends JFrame {
 				{ "재질", arr[1] },
 				{ "수량/면적/크기", arr[3] },
 				{ "상태", arr[4] },
-				{ "시대", arr[26]+" ("+arr[27]+", "+arr[28]+")" }
+				{ "시대", arr[26]+" ("+arr[27]+", "+arr[28]+")" },
+				{ "소재지/출토지", arr[30] + " " + arr[31] }
 		};
 		tableOfOverview.setModel(new DefaultTableModel(contents, header));
 		tableOfOverview.getColumnModel().getColumn(0).setPreferredWidth(15);
@@ -176,7 +177,7 @@ public class FrameDetail extends JFrame {
 	// 텍스트 영역 초기화
 	public void initTextAreas() {
 		JScrollPane scrollPane1 = new JScrollPane();
-		scrollPane1.setBounds(12, 262, 468, 177);
+		scrollPane1.setBounds(12, 278, 468, 161);
 		panelCenter.add(scrollPane1);
 		
 		JTextArea textArea1 = new JTextArea();
@@ -186,7 +187,7 @@ public class FrameDetail extends JFrame {
 		scrollPane1.setViewportView(textArea1);
 		
 		JScrollPane scrollPane2 = new JScrollPane();
-		scrollPane2.setBounds(506, 262, 468, 177);
+		scrollPane2.setBounds(506, 278, 468, 161);
 		panelCenter.add(scrollPane2);
 		
 		JTextArea textArea2 = new JTextArea();
