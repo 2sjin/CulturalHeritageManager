@@ -222,7 +222,7 @@ public class FrameDetail extends JFrame {
 	}
 	
 	// ==============================================================================
-	
+		
 	// 내부 클래스: 각 버튼 클릭 시의 이벤트
 	class MyActionListener1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {

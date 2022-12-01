@@ -6,6 +6,7 @@ import javax.swing.table.*;
 import javax.swing.border.EmptyBorder;
 
 import java.sql.SQLException;
+import java.awt.Font;
 
 public class FrameSearch extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -16,7 +17,7 @@ public class FrameSearch extends JFrame {
 	private JPanel contentPane, radioPanel;
 	public ButtonGroup group;
 	public JRadioButton rb1, rb2, rb3, rb4;
-	private JLabel lblNewLabel;
+	private JLabel lbl1, lbl2;
 	private JTextField textField;
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
@@ -31,7 +32,7 @@ public class FrameSearch extends JFrame {
 		initRadioButtons();
 		initSearchComponents();
 		initTable();	// 테이블 외형 초기화
-		search();		// 검색을 수행하여 데이터 가져옴(초기에는 공백을 검색하여 전체 데이터를 가져옴)
+		search();		// DB에서 검색을 수행하여 데이터 가져옴(초기에는 공백을 검색하여 전체 데이터를 가져옴)
 		refreshtable();	// 검색 결과를 바탕으로 테이블 내용 새로고침
 		setVisible(true);
 	}
@@ -40,8 +41,9 @@ public class FrameSearch extends JFrame {
 	public void initFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// 해당 프레임을 종료하면 프로그램 전체 종료
 		setTitle("문화재 관리 프로그램");
-		setSize(700, 500);
+		setSize(700, 550);
 		setResizable(false);	// 프레임 크기 조정 불가능
+		addWindowListener(new MyWindowListener());
 	}
 	
 	// Panel 초기화
@@ -76,12 +78,18 @@ public class FrameSearch extends JFrame {
 	
 	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
-		lblNewLabel = new JLabel("문화재 검색하기(문화재이름/소장기관/관리단체/시대) : 전체 문화재 조회는 공백 검색");
-		lblNewLabel.setBounds(12, 59, 541, 29);
-		contentPane.add(lblNewLabel);
+		lbl1 = new JLabel("문화재 검색하기");
+		lbl1.setFont(new Font("굴림", Font.BOLD, 16));
+		lbl1.setBounds(12, 68, 170, 29);
+		contentPane.add(lbl1);
+		
+		lbl2 = new JLabel("(문화재이름·소장기관·관리단체·시대 검색   /   전체 문화재 조회는 공백 검색)");
+		lbl2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbl2.setBounds(194, 68, 480, 29);
+		contentPane.add(lbl2);
 		
 		textField = new JTextField();
-		textField.setBounds(12, 88, 541, 27);
+		textField.setBounds(12, 100, 541, 28);
 		textField.setColumns(10);
 		textField.addKeyListener(new MyKeyListener());
 		textField.setFocusable(true);
@@ -89,7 +97,7 @@ public class FrameSearch extends JFrame {
 		contentPane.add(textField);
 		
 		btnSearch = new JButton("문화재 검색");
-		btnSearch.setBounds(564, 88, 110, 27);
+		btnSearch.setBounds(565, 100, 110, 28);
 		btnSearch.addKeyListener(new MyKeyListener());
 		btnSearch.setFocusable(true);
 		btnSearch.requestFocus();
@@ -110,8 +118,8 @@ public class FrameSearch extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 하나만 선택 가능
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(12, 136, 662, 317);
-		contentPane.add(scrollPane);
+		scrollPane.setBounds(12, 138, 662, 365);
+		contentPane.add(scrollPane);		
 	}
 	
 	// ==============================================================================
@@ -150,7 +158,7 @@ public class FrameSearch extends JFrame {
 			table.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
 	}
 		
-	// 메소드: 검색 결과를 가져와서 테이블 내용을 갱신(새로고침)함
+	// 메소드: DB에서 검색한 결과를 가져와서 테이블 내용을 갱신(새로고침)함
 	public void search() {
 		dbconquery = new DB_Conn_Query();
 		try {
@@ -174,6 +182,13 @@ public class FrameSearch extends JFrame {
 	}
 	
 	// ==============================================================================
+	
+	// 내부 클래스: 윈도우가 활성화되면 테이블 새로고침
+	class MyWindowListener extends WindowAdapter {
+		public void windowActivated(WindowEvent e) {
+			search();
+		}
+	}
 	
 	// 내부 클래스: 더블 클릭 시(테이블)의 이벤트
 	class MyMouseAdapter extends MouseAdapter {
