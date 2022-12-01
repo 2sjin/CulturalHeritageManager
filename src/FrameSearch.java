@@ -16,6 +16,7 @@ public class FrameSearch extends JFrame {
 	private JPanel contentPane, radioPanel;
 	public ButtonGroup group;
 	public JRadioButton rb1, rb2, rb3, rb4;
+	private JLabel lblNewLabel;
 	private JTextField textField;
 	private JButton btnSearch;
 	private JScrollPane scrollPane;
@@ -45,7 +46,7 @@ public class FrameSearch extends JFrame {
 	public void initFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		// 해당 프레임을 종료하면 프로그램 전체 종료
 		setTitle("문화재 관리 프로그램");
-		setSize(600, 400);
+		setSize(700, 500);
 		setResizable(false);	// 프레임 크기 조정 불가능
 	}
 	
@@ -57,7 +58,7 @@ public class FrameSearch extends JFrame {
 		radioPanel = new JPanel();
 		radioPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
 		radioPanel.setLocation(12, 13);
-		radioPanel.setSize(562, 27);
+		radioPanel.setSize(662, 27);
 		radioPanel.setLayout(new GridLayout(0, 4, 0, 0));
 		contentPane.add(radioPanel);
 	}
@@ -65,10 +66,10 @@ public class FrameSearch extends JFrame {
 	// 라디오버튼 초기화
 	public void initRadioButtons() {
 		group = new ButtonGroup();
-		rb1 = new JRadioButton("문화재", true);
-		rb2 = new JRadioButton("소장기관");
-		rb3 = new JRadioButton("관리기관");
-		rb4 = new JRadioButton("시대");
+		rb1 = new JRadioButton("전체 문화재", true);
+		rb2 = new JRadioButton("전체 소장기관");
+		rb3 = new JRadioButton("전체 관리기관");
+		rb4 = new JRadioButton("전체 시대");
 		group.add(rb1);
 		group.add(rb2);
 		group.add(rb3);
@@ -85,16 +86,20 @@ public class FrameSearch extends JFrame {
 	
 	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
+		lblNewLabel = new JLabel("문화재 검색하기(문화재 이름, 소장기관, 관리기관)");
+		lblNewLabel.setBounds(12, 59, 412, 29);
+		contentPane.add(lblNewLabel);
+		
 		textField = new JTextField();
-		textField.setBounds(12, 50, 459, 27);
+		textField.setBounds(12, 88, 541, 27);
 		textField.setColumns(10);
 		textField.addKeyListener(new MyKeyListener());
 		textField.setFocusable(true);
 		textField.requestFocus();
 		contentPane.add(textField);
 		
-		btnSearch = new JButton("검색");
-		btnSearch.setBounds(483, 50, 91, 27);
+		btnSearch = new JButton("문화재 검색");
+		btnSearch.setBounds(564, 88, 110, 27);
 		btnSearch.addKeyListener(new MyKeyListener());
 		btnSearch.setFocusable(true);
 		btnSearch.requestFocus();
@@ -115,7 +120,7 @@ public class FrameSearch extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 하나만 선택 가능
 		
 		scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(12, 92, 562, 261);
+		scrollPane.setBounds(12, 136, 662, 317);
 		contentPane.add(scrollPane);
 	}
 	
@@ -126,12 +131,12 @@ public class FrameSearch extends JFrame {
 		String[] header = null;	// 테이블 헤더
 		int[] width = null;
 		
-		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대" }; // 테이블 헤더
+		String h1[] = { "문화재이름", "소장기관", "관리기관", "시대", "상태"}; // 테이블 헤더
 		String h2[] = { "소장기관명", "위치", "연락처", "도난", "소장"}; // 테이블 헤더
 		String h3[] = { "관리기관명", "위치", "연락처", "훼손" }; // 테이블 헤더		
 		String h4[] = { "시대명", "년대", "한반도 내 나라" }; // 테이블 헤더
 
-		int width1[] = {15, 15, 15, 15};
+		int width1[] = {100, 80, 100, 30, 15};
 		int width2[] = {90, 180, 90, 15, 15};
 		int width3[] = {90, 180, 90, 15};
 		int width4[] = {15, 15, 15};

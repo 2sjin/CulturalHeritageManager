@@ -37,8 +37,8 @@ public class DB_Conn_Query {
 		// 선택된 라디오버튼에 따라 테이블 및 속성 결정
 		switch(rbNum) {
 			case 1:
-				dbColumnCount = 4;
-				dbColumns = "문화재이름, 소장기관기관명, 관리단체기관명, 시대시대명";
+				dbColumnCount = 5;
+				dbColumns = "문화재이름, 소장기관기관명, 관리단체기관명, 시대시대명, 상태";
 				dbTableName = "문화재";
 				break;
 			case 2:
@@ -111,7 +111,7 @@ public class DB_Conn_Query {
 	// SQL 실행: 문화재 검색을 위한 저장프로시저 호출
 	public String[][] sqlRunSearchProcedure(String keyword) throws SQLException {
 		ArrayList<String[]> tempRowArrayList = new ArrayList<>();
-		String[] tempRow = new String[4];
+		String[] tempRow = new String[5];
 
 		try {
 			DB_Connect();
