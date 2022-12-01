@@ -66,10 +66,10 @@ public class FrameSearch extends JFrame {
 	// 라디오버튼 초기화
 	public void initRadioButtons() {
 		group = new ButtonGroup();
-		rb1 = new JRadioButton("전체 문화재", true);
-		rb2 = new JRadioButton("전체 소장기관");
-		rb3 = new JRadioButton("전체 관리기관");
-		rb4 = new JRadioButton("전체 시대");
+		rb1 = new JRadioButton("문화재(검색 결과)", true);
+		rb2 = new JRadioButton("전체 소장기관 조회");
+		rb3 = new JRadioButton("전체 관리기관 조회");
+		rb4 = new JRadioButton("전체 시대 조회");
 		group.add(rb1);
 		group.add(rb2);
 		group.add(rb3);
@@ -86,8 +86,8 @@ public class FrameSearch extends JFrame {
 	
 	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
-		lblNewLabel = new JLabel("문화재 검색하기(문화재 이름, 소장기관, 관리기관)");
-		lblNewLabel.setBounds(12, 59, 412, 29);
+		lblNewLabel = new JLabel("문화재 검색하기(문화재이름/소장기관/관리기관) : 전체 문화재 조회는 공백 검색");
+		lblNewLabel.setBounds(12, 59, 541, 29);
 		contentPane.add(lblNewLabel);
 		
 		textField = new JTextField();
@@ -171,6 +171,8 @@ public class FrameSearch extends JFrame {
 			refreshtable();		// 테이블 내용 새로고침
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			rb1.setSelected(true);
 		}
 	}
 	
