@@ -180,6 +180,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(scrollPane1);
 		
 		JTextArea textArea1 = new JTextArea();
+		textArea1.setLineWrap(true);
 		textArea1.setText(arr[2]);
 		textArea1.setEditable(false);
 		scrollPane1.setViewportView(textArea1);
@@ -189,6 +190,7 @@ public class FrameDetail extends JFrame {
 		panelCenter.add(scrollPane2);
 		
 		JTextArea textArea2 = new JTextArea();
+		textArea2.setLineWrap(true);
 		textArea2.setText(arr[25]);
 		textArea2.setEditable(false);
 		scrollPane2.setViewportView(textArea2);
