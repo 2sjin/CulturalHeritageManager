@@ -1,9 +1,8 @@
 
-
 public class App {
 	public static void main(String[] args) {
-		DB_Conn_Query dbconquery = new DB_Conn_Query();
+		DBConn dbconquery = new DBConn();
 		dbconquery.loadDriver();
 		new FrameSearch();
 	}
-}	
+}
