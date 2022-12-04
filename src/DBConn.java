@@ -117,7 +117,7 @@ public class DBConn {
 
 		try {
 			connect();
-			CallableStatement cstmt = con.prepareCall(" {call SP_문화재검색(?, ?)}");
+			CallableStatement cstmt = con.prepareCall(" {call search_cultural_heritage(?, ?)}");
 			cstmt.setString(1, keyword);
 			cstmt.registerOutParameter(2, OracleTypes.CURSOR);
 			cstmt.executeQuery();
