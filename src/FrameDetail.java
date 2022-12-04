@@ -23,7 +23,7 @@ public class FrameDetail extends JFrame {
 
 	// 생성자
 	public FrameDetail(String chName) {
-		tranjection = new Tranjection();	// 트랜잭션 수행을 위한 객체 생성
+		tranjection = new Tranjection(); // 트랜잭션 수행을 위한 객체 생성
 		this.chName = chName;
 		DB_Connect(); // 상세정보 창이 열릴 때 DB에 연결함
 		initFrame();
@@ -209,11 +209,11 @@ public class FrameDetail extends JFrame {
 		btn2.addActionListener(new MyActionListener2());
 		subpanel1.add(btn2);
 
-		JButton btn3 = new JButton("문화재 분실");
+		JButton btn3 = new JButton("문화재 도난");
 		btn3.addActionListener(new MyActionListener3());
 		subpanel2.add(btn3);
 
-		JButton btn4 = new JButton("분실 복구");
+		JButton btn4 = new JButton("도난 복구");
 		btn4.addActionListener(new MyActionListener4());
 		subpanel2.add(btn4);
 	}
@@ -223,6 +223,10 @@ public class FrameDetail extends JFrame {
 	// 내부 클래스: 각 버튼 클릭 시의 이벤트
 	class MyActionListener1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			if (!arr[4].equals("보존")) {
+				JOptionPane.showMessageDialog(null, "보존 상태인 문화재만 훼손 처리 가능합니다.", "문화재 훼손 실패", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			try {
 				dbconquery.sqlRunTrigger(chName, "보존", "훼손");
 				refreshAllTables();
@@ -235,6 +239,10 @@ public class FrameDetail extends JFrame {
 
 	class MyActionListener2 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			if (!arr[4].equals("훼손")) {
+				JOptionPane.showMessageDialog(null, "훼손된 문화재만 훼손 복구 가능합니다.", "훼손 복구 실패", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			try {
 				dbconquery.sqlRunTrigger(chName, "훼손", "보존");
 				refreshAllTables();
@@ -248,11 +256,14 @@ public class FrameDetail extends JFrame {
 
 	class MyActionListener3 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			if (!arr[4].equals("보존")) {
+				JOptionPane.showMessageDialog(null, "보존 상태인 문화재만 도난 처리 가능합니다.", "문화재 도난 실패", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			try {
-				tranjection.RunTranjection(chName, true);		// 문화재 
+				tranjection.RunTranjection(chName, true); // 문화재
 				refreshAllTables();
-				JOptionPane.showMessageDialog(null, "문화재가 분실 처리되었습니다.", "문화재 분실",
-						JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "문화재가 도난 처리되었습니다.", "문화재 도난", JOptionPane.WARNING_MESSAGE);
 			} catch (SQLException err) {
 				err.printStackTrace();
 			}
@@ -261,10 +272,14 @@ public class FrameDetail extends JFrame {
 
 	class MyActionListener4 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			if (!arr[4].equals("도난")) {
+				JOptionPane.showMessageDialog(null, "도난된 문화재만 도난 복구 가능합니다.", "도난 복구 실패", JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			try {
 				tranjection.RunTranjection(chName, false);
 				refreshAllTables();
-				JOptionPane.showMessageDialog(null, "분실된 문화재가 보존 상태로 복구되었습니다.", "분실 복구",
+				JOptionPane.showMessageDialog(null, "도난된 문화재가 보존 상태로 복구되었습니다.", "도난 복구",
 						JOptionPane.INFORMATION_MESSAGE);
 			} catch (SQLException err) {
 				err.printStackTrace();
