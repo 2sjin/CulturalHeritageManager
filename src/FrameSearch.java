@@ -32,7 +32,7 @@ public class FrameSearch extends JFrame {
 		initRadioButtons();
 		initSearchComponents();
 		initTable(); // 테이블 외형 초기화
-		search(); // DB에서 검색을 수행하여 데이터 가져옴(초기에는 공백을 검색하여 전체 데이터를 가져옴)
+		search(""); // DB에서 검색을 수행하여 데이터 가져옴(초기에는 공백을 검색하여 전체 데이터를 가져옴)
 		refreshtable(); // 검색 결과를 바탕으로 테이블 내용 새로고침
 		setVisible(true);
 	}
@@ -63,8 +63,8 @@ public class FrameSearch extends JFrame {
 	public void initRadioButtons() {
 		group = new ButtonGroup();
 		rb1 = new JRadioButton("문화재(검색 결과)", true);
-		rb2 = new JRadioButton("전체 소장기관 조회");
-		rb3 = new JRadioButton("전체 관리단체 조회");
+		rb2 = new JRadioButton("소장기관 전체 조회");
+		rb3 = new JRadioButton("관리기관 전체 조회");
 		group.add(rb1);
 		group.add(rb2);
 		group.add(rb3);
@@ -78,14 +78,14 @@ public class FrameSearch extends JFrame {
 
 	// 검색창 및 버튼 컴포넌트 초기화
 	public void initSearchComponents() {
-		lbl1 = new JLabel("문화재 검색하기");
+		lbl1 = new JLabel();
 		lbl1.setFont(new Font("굴림", Font.BOLD, 16));
-		lbl1.setBounds(12, 68, 170, 29);
+		lbl1.setBounds(12, 68, 258, 29);
 		contentPane.add(lbl1);
 
 		lbl2 = new JLabel("(문화재이름·소장기관·관리단체·시대 검색   /   전체 문화재 조회는 공백 검색)");
 		lbl2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lbl2.setBounds(194, 68, 480, 29);
+		lbl2.setBounds(201, 68, 473, 29);
 		contentPane.add(lbl2);
 
 		textField = new JTextField();
@@ -105,7 +105,7 @@ public class FrameSearch extends JFrame {
 
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				search();
+				search(textField.getText());
 			}
 		});
 	}
@@ -180,10 +180,11 @@ public class FrameSearch extends JFrame {
 	}
 
 	// 메소드: DB에서 검색한 결과를 가져와서 테이블 내용을 갱신(새로고침)함
-	public void search() {
+	public void search(String keyword) {
 		dbconquery = new DBConn();
 		try {
-			ary = dbconquery.sqlRunSearchProcedure(textField.getText()); // 저장프로시저를 실행하여 데이터 가져옴
+			ary = dbconquery.sqlRunSearchProcedure(keyword); // 저장프로시저를 실행하여 데이터 가져옴
+			lbl1.setText("문화재 검색(" + ary.length + "개)");	// 문화재 검색 결과의 개수 반환
 			selectedRadioNum = 1;
 			rb1.setSelected(true);
 			refreshtable(); // 테이블 내용 새로고침
@@ -207,7 +208,7 @@ public class FrameSearch extends JFrame {
 	// 내부 클래스: 윈도우가 활성화되면 테이블 새로고침
 	class MyWindowListener extends WindowAdapter {
 		public void windowActivated(WindowEvent e) {
-			search();
+			search(textField.getText());
 		}
 	}
 
@@ -227,7 +228,7 @@ public class FrameSearch extends JFrame {
 				if (e.getSource() == table) { // 테이블에서 [Enter] 키 입력 시
 					tableEnterCommand();
 				} else
-					search(); // 그 외의 경우 검색 수행
+					search(textField.getText()); // 그 외의 경우 검색 수행
 			}
 		}
 	}
@@ -237,15 +238,21 @@ public class FrameSearch extends JFrame {
 	// 내부 클래스: 라디오버튼이 선택될 때마다 발생하는 이벤트
 	class MyRadioListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			if (rb1.isSelected())
-				selectedRadioNum = 1;
-			else if (rb2.isSelected())
-				selectedRadioNum = 2;
-			else if (rb3.isSelected())
-				selectedRadioNum = 3;
-
 			try {
-				ary = dbconquery.sqlRun(selectedRadioNum);
+				if (rb1.isSelected()) {
+					selectedRadioNum = 1;
+					search("");
+				}
+				else if (rb2.isSelected()) {
+					selectedRadioNum = 2;
+					lbl1.setText("문화재 검색");
+					ary = dbconquery.sqlRun(selectedRadioNum);
+				}
+				else if (rb3.isSelected()) {
+					selectedRadioNum = 3;
+					lbl1.setText("문화재 검색");
+					ary = dbconquery.sqlRun(selectedRadioNum);
+				}
 				refreshtable();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
