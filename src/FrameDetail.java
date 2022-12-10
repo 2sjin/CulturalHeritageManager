@@ -11,7 +11,7 @@ public class FrameDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private DBConn dbconquery;
 	Tranjection tranjection;
-	private String[] arr = new String[34];
+	private String[] arr = new String[33];
 
 	private String chName;
 
@@ -136,7 +136,7 @@ public class FrameDetail extends JFrame {
 		DB_Connect();
 		String header[] = { "", "" }; // 테이블 헤더
 		String contents[][] = { { "재질", arr[1] }, { "수량/면적/크기", arr[3] }, { "상태", arr[4] },
-				{ "시대", arr[26] + " (" + arr[27] + ", " + arr[28] + ")" }, { "소재지/출토지", arr[30] + " " + arr[31] } };
+				{ "시대", arr[25] + " (" + arr[26] + ", " + arr[27] + ")" }, { "소재지/출토지", arr[29] + " " + arr[30] } };
 		tableOfOverview.setModel(new DefaultTableModel(contents, header));
 		tableOfOverview.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfOverview.getColumnModel().getColumn(1).setPreferredWidth(280);
@@ -145,7 +145,7 @@ public class FrameDetail extends JFrame {
 	// 관리단체 테이블 모델 설정
 	public void setTableModelOfManager() {
 		String header[] = { "", "" };
-		String contents[][] = { { "기관명", arr[11] }, { "위치", arr[12] }, { "연락처", arr[13] }, { "문화재 훼손 개수", arr[14] } };
+		String contents[][] = { { "기관명", arr[10] }, { "위치", arr[11] }, { "연락처", arr[12] }, { "문화재 훼손 개수", arr[13] } };
 		tableOfCollector.setModel(new DefaultTableModel(contents, header));
 		tableOfCollector.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfCollector.getColumnModel().getColumn(1).setPreferredWidth(280);
@@ -154,9 +154,9 @@ public class FrameDetail extends JFrame {
 	// 소장기관 테이블 모델 설정
 	public void setTableModelOfCollector() {
 		String header[] = { "", "" };
-		String contents[][] = { { "기관명", arr[15] }, { "위치", arr[16] }, { "소장품번호", arr[6] }, { "연락처", arr[17] },
-				{ "문화재 도난 개수", arr[18] }, { "문화재 소장 개수", arr[19] }, { "박물관 분류", arr[22] }, { "설립 및 운영 주체", arr[23] },
-				{ "박물관 유형", arr[24] } };
+		String contents[][] = { { "기관명", arr[14] }, { "위치", arr[15] }, { "소장품번호", arr[5] }, { "연락처", arr[16] },
+				{ "문화재 도난 개수", arr[17] }, { "문화재 소장 개수", arr[18] }, { "박물관 분류", arr[21] }, { "설립 및 운영 주체", arr[22] },
+				{ "박물관 유형", arr[23] } };
 		tableOfManager.setModel(new DefaultTableModel(contents, header));
 		tableOfManager.getColumnModel().getColumn(0).setPreferredWidth(15);
 		tableOfManager.getColumnModel().getColumn(1).setPreferredWidth(280);
@@ -180,12 +180,12 @@ public class FrameDetail extends JFrame {
 
 		JTextArea textArea2 = new JTextArea();
 		textArea2.setLineWrap(true);
-		textArea2.setText(arr[25]);
+		textArea2.setText(arr[24]);
 		textArea2.setEditable(false);
 		scrollPane2.setViewportView(textArea2);
 
 		JTextArea textArea3 = new JTextArea();
-		textArea3.setText(arr[32]);
+		textArea3.setText(arr[31]);
 		textArea3.setEditable(false);
 		textArea3.setBounds(506, 30, 468, 18);
 		panelCenter.add(textArea3);

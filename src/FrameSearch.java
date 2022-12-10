@@ -103,6 +103,7 @@ public class FrameSearch extends JFrame {
 		btnSearch.requestFocus();
 		contentPane.add(btnSearch);
 
+		// [문화재 검색] 버튼을 누르면 검색 메소드가 실행됨
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				search(textField.getText());
@@ -225,8 +226,8 @@ public class FrameSearch extends JFrame {
 	class MyKeyListener extends KeyAdapter {
 		public void keyPressed(KeyEvent e) {
 			if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-				if (e.getSource() == table) { // 테이블에서 [Enter] 키 입력 시
-					tableEnterCommand();
+				if (e.getSource() == table) { 	// 테이블에서 [Enter] 키 입력 시
+					tableEnterCommand();		// 상세 페이지 생성
 				} else
 					search(textField.getText()); // 그 외의 경우 검색 수행
 			}
@@ -241,6 +242,7 @@ public class FrameSearch extends JFrame {
 			try {
 				if (rb1.isSelected()) {
 					selectedRadioNum = 1;
+					ary = dbconquery.sqlRun(selectedRadioNum);
 					search("");
 				}
 				else if (rb2.isSelected()) {

@@ -61,6 +61,7 @@ public class DBConn {
 		tempRow = new String[dbColumnCount];
 
 		String query = "select " + dbColumns + " from " + dbTableName;
+		
 		try {
 			connect();
 			Statement stmt = con.createStatement();
@@ -86,10 +87,13 @@ public class DBConn {
 
 	// SQL 실행: 상세정보 조회
 	public String[] sqlRunDetail(String chName) throws SQLException {
-		String[] rsArray = new String[34]; // SELECT 결과를 리턴하기 위한 배열
-		String query = "select * from 문화재, 관리단체, 소장기관, 박물관규정, 시대, 소재지및출토지, 문화재분류 " + "where 문화재.문화재이름 = ? "
-				+ "and 문화재.관리단체기관명 = 관리단체.기관명 " + "and 문화재.소장기관기관명 = 소장기관.기관명 " + "and 소장기관.박물관규정 = 박물관규정.종류ID "
-				+ "and 문화재.시대시대명 = 시대.시대명 " + "and 문화재.소재지및출토지일련번호 = 소재지및출토지.일련번호 " + "and 문화재.문화재이름 = 문화재분류.문화재문화재이름";
+		String[] rsArray = new String[33]; // SELECT 결과를 리턴하기 위한 배열
+		String query = "select * from 문화재, 관리단체, 소장기관, 박물관규정, 시대, 소재지및출토지, 문화재분류 "
+				+ "where 문화재.문화재이름 = ? "
+				+ "and 문화재.관리단체기관명 = 관리단체.기관명 " + "and 문화재.소장기관기관명 = 소장기관.기관명 "
+				+ "and 소장기관.박물관규정 = 박물관규정.종류ID "
+				+ "and 문화재.시대시대명 = 시대.시대명 " + "and 문화재.소재지및출토지일련번호 = 소재지및출토지.일련번호 "
+				+ "and 문화재.문화재이름 = 문화재분류.문화재문화재이름";
 		try {
 			connect();
 			PreparedStatement pstmt = con.prepareStatement(query);
