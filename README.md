@@ -1,5 +1,6 @@
 # CulturalHeritageManager
 문화재 관리 프로그램(데이터베이스프로그래밍 팀 프로젝트)
+- 기여자: 이승진, 배가형, 최선린
 
 ## 시연 영상
 https://youtu.be/Tm8FnV00w0o
