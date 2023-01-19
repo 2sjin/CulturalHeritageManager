@@ -10,5 +10,5 @@
 [☞ SQL 파일(Oracle DBMS)](https://drive.google.com/file/d/1wSzI9lr0SqzeCYKY_2B_k511UM_VN8Bt/view?usp=sharing)
 
 ## 스크린샷
-![image](https://user-images.githubusercontent.com/91407433/204981748-4e555897-0518-4048-8ea3-b36677047d3d.png)
-![image](https://user-images.githubusercontent.com/91407433/204981773-30104198-9edf-4ad4-8151-084b2e366f9e.png)
+![image](https://user-images.githubusercontent.com/91407433/213365314-78160338-e7dc-456b-bc1b-c5074295515e.png)
+![image](https://user-images.githubusercontent.com/91407433/213365331-4cef882b-4961-4c08-913b-cedece2e7d5e.png)
